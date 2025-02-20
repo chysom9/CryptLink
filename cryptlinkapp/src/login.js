@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Login.css";
+import "./login.css";
 
 function Login() {
   // State variables for the email and password fields
