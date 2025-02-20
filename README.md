@@ -4,8 +4,6 @@ Crypt Link is a web application providing secure and encrypted messaging and fil
 
 kj here
 Chi here
-<<<<<<< HEAD
 Harsh here
-=======
 Zakir here
->>>>>>> 423cf5b05300f18d3ae0ec7c936bcdac1264ed0b
+comment here
