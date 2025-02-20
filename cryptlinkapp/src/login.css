@@ -1,10 +1,18 @@
 /* Login.css */
 
+html, body, #root {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    width: 100vw; /* Ensure full width */
     background: linear-gradient(120deg, #74ABE2, #5563DE);
     font-family: Arial, sans-serif;
 }
@@ -13,9 +21,9 @@
     background: #ffffff;
     padding: 2rem;
     border-radius: 8px;
-    min-width: 400px; /* Set a minimum width */
-    max-width: 600px; /* Adjust for laptop screens */
-    width: 50%; /* Make it take a reasonable portion of the screen */
+    min-width: 500px !important; /* Ensure a wider layout */
+    max-width: 700px !important;
+    width: 50% !important;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -70,6 +78,6 @@ button:hover {
 @media (max-width: 768px) {
     .login-form {
         width: 80%;
-        min-width: 320px; /* Ensure it doesn't get too small */
+        min-width: 320px !important; /* Ensure it doesn't get too small */
     }
 }
