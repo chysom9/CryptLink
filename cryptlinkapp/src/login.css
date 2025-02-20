@@ -25,6 +25,16 @@ html, body, #root {
     max-width: 700px !important;
     width: 50% !important;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Logo */
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #5563DE;
+    text-align: center;
+    margin-bottom: 1rem;
 }
 
 .login-form h2 {
@@ -35,6 +45,7 @@ html, body, #root {
 
 .form-group {
     margin-bottom: 1rem;
+    text-align: left;
 }
 
 .form-group label {
@@ -78,6 +89,6 @@ button:hover {
 @media (max-width: 768px) {
     .login-form {
         width: 80%;
-        min-width: 320px !important; /* Ensure it doesn't get too small */
+        min-width: 320px !important;
     }
 }

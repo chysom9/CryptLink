@@ -26,11 +26,11 @@ function Login() {
 
     setErrors(tempErrors);
 
-    // If there are no errors, proceed with your login logic (e.g., API call)
+    // If there are no errors, proceed with login logic (e.g., API call)
     if (Object.keys(tempErrors).length === 0) {
       console.log("Login successful:", { email, password });
       alert("Login successful!");
-      
+
       // Clear the form
       setEmail("");
       setPassword("");
@@ -40,6 +40,9 @@ function Login() {
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
+        {/* Logo */}
+        <div className="logo">CRYPTLINK</div>
+
         <h2>Login</h2>
 
         {/* Email Field */}
