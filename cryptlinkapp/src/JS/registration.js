@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "./registration.css";
-import { ReactComponent as CryptLogo } from "./crpyt_logo.svg";
+import "../css/registration.css";  // Updated path to CSS folder
+import { ReactComponent as CryptLogo } from "../SVG/crpyt_logo.svg";
 
 function Registration() {
   // State variables for each field
@@ -58,7 +58,7 @@ function Registration() {
 
         {/* Clickable SVG Logo */}
         <Link to="/Home" className="logo">
-          <CryptLogo />
+          <CryptLogo className="svg-logo" />
         </Link>
 
         <h2>Create an Account</h2>

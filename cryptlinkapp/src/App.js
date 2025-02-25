@@ -1,18 +1,16 @@
-import React, { useState } from 'react';
+import React, {} from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import './App.css';
-import Home from "./Home";
-import Registration from './registration';
-import Login from './login';
-import { ReactComponent as CryptLogo } from "./crpyt_logo.svg";
-
+import './css/App.css';
+import Home from "./JS/Home";
+import Registration from './JS/registration';
+import Login from './JS/login';
+/*import { ReactComponent as CryptLogo } from "./SVG/crpyt_logo.svg";*/
 
 function App() {
-  // Toggle state to switch between Login and Registration views
-  const [showLogin, setShowLogin] = useState(true);
+  // Toggle state to switch between Login and Registration views (unused with Router)
+  /*const [showLogin, setShowLogin] = useState(true);*/
 
   return (
-
     <Router>
       <div className="App">
         <header className="App-header">
@@ -29,4 +27,6 @@ function App() {
 }
 
 export default App;
+
+
 

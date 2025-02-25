@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./Home.css"; // Ensure this file is in the same folder
-import { ReactComponent as HomeLogo } from "./home_logo.svg";
+import "../css/Home.css";  // Updated path to CSS folder
+import { ReactComponent as HomeLogo } from "../SVG/home_logo.svg";
 
 function Home() {
   return (
@@ -19,3 +19,5 @@ function Home() {
 }
 
 export default Home;
+
+
