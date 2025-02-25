@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link} from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./registration.css";
 import { ReactComponent as CryptLogo } from "./crpyt_logo.svg";
 
@@ -8,10 +8,8 @@ function Registration() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   // Error handling states
   const [errors, setErrors] = useState({});
-
   const navigate = useNavigate();
 
   // Form submit handler
@@ -33,15 +31,12 @@ function Registration() {
     } else if (password.length < 6) {
       tempErrors.password = "Password must be at least 6 characters";
     }
-
     setErrors(tempErrors);
 
     // If no errors, proceed with registration logic (e.g., API call)
     if (Object.keys(tempErrors).length === 0) {
-      // Replace with your registration logic
       console.log("Registration successful:", { name, email, password });
       alert("Registration successful!");
-
       // Clear form
       setName("");
       setEmail("");
@@ -52,6 +47,8 @@ function Registration() {
   return (
     <div className="registration-container">
       <form className="registration-form" onSubmit={handleSubmit}>
+        {/* Home button inside the white div */}
+        <Link to="/" className="home-button-top">Home</Link>
 
         {/* Clickable SVG Logo */}
         <Link to="/login" className="logo">
@@ -102,7 +99,11 @@ function Registration() {
         <button type="submit">Sign Up</button>
 
         {/* Button to navigate to login */}
-       <button className="switch-button" onClick={() => navigate("/login")}>
+        <button
+          type="button"
+          className="switch-button"
+          onClick={() => navigate("/login")}
+        >
           Already have an account? Login
         </button>
       </form>
