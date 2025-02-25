@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Registration.css";
+import "./registration.css";
 
 function Registration() {
   // State variables for each field
