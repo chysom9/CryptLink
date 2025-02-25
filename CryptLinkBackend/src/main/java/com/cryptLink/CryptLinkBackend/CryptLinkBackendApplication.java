@@ -1,13 +1,13 @@
-package com.cryptlink.cryptlinkBackend;
+package com.cryptLink.CryptLinkBackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CryptlinkBackendApplication {
+public class CryptLinkBackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CryptlinkBackendApplication.class, args);
+		SpringApplication.run(CryptLinkBackendApplication.class, args);
 	}
 
 }

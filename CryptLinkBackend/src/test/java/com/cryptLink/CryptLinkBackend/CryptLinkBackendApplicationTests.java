@@ -1,10 +1,10 @@
-package com.cryptlink.cryptlinkBackend;
+package com.cryptLink.CryptLinkBackend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CryptlinkBackendApplicationTests {
+class CryptLinkBackendApplicationTests {
 
 	@Test
 	void contextLoads() {
