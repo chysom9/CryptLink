@@ -44,7 +44,7 @@ function Login() {
         <Link to="/" className="home-button-top">Home</Link>
 
         {/* Clickable SVG Logo */}
-        <Link to="/login" className="logo">
+        <Link to="/Home" className="logo">
           <CryptLogo />
         </Link>
 
