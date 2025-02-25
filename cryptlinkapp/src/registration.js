@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link} from "react-router-dom";
 import "./registration.css";
+import { ReactComponent as CryptLogo } from "./crpyt_logo.svg";
 
 function Registration() {
   // State variables for each field
@@ -51,6 +52,12 @@ function Registration() {
   return (
     <div className="registration-container">
       <form className="registration-form" onSubmit={handleSubmit}>
+
+        {/* Clickable SVG Logo */}
+        <Link to="/login" className="logo">
+          <CryptLogo />
+        </Link>
+
         <h2>Create an Account</h2>
 
         {/* Name Field */}

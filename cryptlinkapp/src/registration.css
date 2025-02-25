@@ -108,3 +108,11 @@ button:hover {
 .switch-button:hover {
   background-color: #d6d6d6;
 }
+
+.svg-logo {
+  width: 150px;  /* or 10rem, or 50%, etc. */
+  height: auto;
+  display: block;
+  margin: 0 auto; /* Center if needed */
+}
+

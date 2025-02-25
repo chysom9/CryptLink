@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./login.css";
+import { ReactComponent as CryptLogo } from "./crpyt_logo.svg";
 
 function Login() {
   // State variables for the email and password fields
@@ -44,7 +45,10 @@ function Login() {
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         {/* Logo */}
-        <div className="logo">CRYPTLINK</div>
+         {/* Clickable SVG Logo */}
+         <Link to="/login" className="logo">
+          <CryptLogo />
+        </Link>
 
         <h2>Login</h2>
 
