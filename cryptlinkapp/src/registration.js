@@ -5,9 +5,11 @@ import { ReactComponent as CryptLogo } from "./crpyt_logo.svg";
 
 function Registration() {
   // State variables for each field
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
   // Error handling states
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
@@ -18,8 +20,11 @@ function Registration() {
 
     // Validate fields
     let tempErrors = {};
-    if (!name.trim()) {
-      tempErrors.name = "Name is required";
+    if (!firstName.trim()) {
+      tempErrors.firstName = "First name is required";
+    }
+    if (!lastName.trim()) {
+      tempErrors.lastName = "Last name is required";
     }
     if (!email.trim()) {
       tempErrors.email = "Email is required";
@@ -35,10 +40,11 @@ function Registration() {
 
     // If no errors, proceed with registration logic (e.g., API call)
     if (Object.keys(tempErrors).length === 0) {
-      console.log("Registration successful:", { name, email, password });
+      console.log("Registration successful:", { firstName, lastName, email, password });
       alert("Registration successful!");
       // Clear form
-      setName("");
+      setFirstName("");
+      setLastName("");
       setEmail("");
       setPassword("");
     }
@@ -57,17 +63,30 @@ function Registration() {
 
         <h2>Create an Account</h2>
 
-        {/* Name Field */}
+        {/* First Name Field */}
         <div className="form-group">
-          <label htmlFor="name">Full Name</label>
+          <label htmlFor="firstName">First Name</label>
           <input
-            id="name"
+            id="firstName"
             type="text"
-            placeholder="Enter your full name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter your first name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
           />
-          {errors.name && <p className="error">{errors.name}</p>}
+          {errors.firstName && <p className="error">{errors.firstName}</p>}
+        </div>
+
+        {/* Last Name Field */}
+        <div className="form-group">
+          <label htmlFor="lastName">Last Name</label>
+          <input
+            id="lastName"
+            type="text"
+            placeholder="Enter your last name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+          {errors.lastName && <p className="error">{errors.lastName}</p>}
         </div>
 
         {/* Email Field */}
