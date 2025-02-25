@@ -1,62 +1,46 @@
 package com.cryptLink.CryptLinkBackend;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 @Entity
 @Table(name="users")
 public class User {
 
     @Id
-    private String userName;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment primary key
+    private Long userID;
 
-    private String firstName;
-    private String lastName;
+    @Column(nullable = false, unique = true) // Ensures email is unique
+    private String email;
+
+    @Column(nullable = false)
+    private String firstname;
+
+    @Column(nullable = false)
+    private String lastname;
+
+    @Column(nullable = false)
     private String password;
 
-    public User() {}
+    // Getters and Setters
+    public Long getUserID() { return userID; }
+    public void setUserID(Long userID) { this.userID = userID; }
 
-    public User(String userName, String firstName, String lastName, String password) {
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    // Getter and Setter for firstName
-    public String getFirstName() {
-        return firstName;
-    }
+    public String getFirstname() { return firstname; }
+    public void setFirstname(String firstname) { this.firstname = firstname; }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    public String getLastname() { return lastname; }
+    public void setLastname(String lastname) { this.lastname = lastname; }
 
-    // Getter and Setter for lastName
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    // Getter and Setter for userName
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    // Getter and Setter for password
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 }    
 
