@@ -9,27 +9,39 @@ function App() {
   const [showLogin, setShowLogin] = useState(true);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        {/* Conditionally render Login or Registration */}
-        {showLogin ? <Login /> : <Registration />}
-        {/* Button to switch between forms */}
-        <button
-          style={{
-            marginTop: '1rem',
-            padding: '0.5rem 1rem',
-            border: 'none',
-            borderRadius: '4px',
-            backgroundColor: '#5563DE',
-            color: '#fff',
-            cursor: 'pointer'
-          }}
-          onClick={() => setShowLogin(!showLogin)}
-        >
-          {showLogin ? "Don't have an account? Register" : "Already have an account? Login"}
-        </button>
-      </header>
-    </div>
+    // <div className="App">
+    //   <header className="App-header">
+    //     {/* Conditionally render Login or Registration */}
+    //     {showLogin ? <Login /> : <Registration />}
+    //     {/* Button to switch between forms */}
+    //     <button
+    //       style={{
+    //         marginTop: '1rem',
+    //         padding: '0.5rem 1rem',
+    //         border: 'none',
+    //         borderRadius: '4px',
+    //         backgroundColor: '#5563DE',
+    //         color: '#fff',
+    //         cursor: 'pointer'
+    //       }}
+    //       onClick={() => setShowLogin(!showLogin)}
+    //     >
+    //       {showLogin ? "Don't have an account? Register" : "Already have an account? Login"}
+    //     </button>
+    //   </header>
+    // </div>
+
+    <Router>
+      <div className="App">
+        <header className="App-header">
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Registration />} />
+            <Route path="*" element={<Login />} /> {/* Default route to login */}
+          </Routes>
+        </header>
+      </div>
+    </Router>
   );
 }
 

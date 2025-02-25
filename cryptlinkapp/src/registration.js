@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./registration.css";
 
 function Registration() {
@@ -9,6 +10,8 @@ function Registration() {
 
   // Error handling states
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
 
   // Form submit handler
   const handleSubmit = (e) => {
@@ -90,6 +93,11 @@ function Registration() {
         </div>
 
         <button type="submit">Sign Up</button>
+
+        {/* Button to navigate to login */}
+       <button className="switch-button" onClick={() => navigate("/login")}>
+          Already have an account? Login
+        </button>
       </form>
     </div>
   );
