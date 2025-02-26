@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+
 @Entity
 @Table(name="users")
 public class User {
@@ -27,6 +28,15 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    public User() {
+    }
+
+    public User(String email, String firstname, String lastname,String password) {
+        this.email = email;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.password = password;
+    }
     // Getters and Setters
     public Long getUserID() { return userID; }
     public void setUserID(Long userID) { this.userID = userID; }

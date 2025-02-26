@@ -1,5 +1,7 @@
 package com.cryptLink.CryptLinkBackend;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -16,8 +18,8 @@ public class UserController {
 
     // Get all users
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<User>> getAllUsers() {
+        return new ResponseEntity<>(userService.getAllUsers(),HttpStatus.OK);
     }
 
     // Get user by ID
