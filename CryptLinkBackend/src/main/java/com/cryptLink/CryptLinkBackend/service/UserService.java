@@ -5,13 +5,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.cryptLink.CryptLinkBackend.model.User;
 import com.cryptLink.CryptLinkBackend.repository.UserRepository;
+import com.cryptLink.CryptLinkBackend.security.JwtUtil;
+
+
 import java.util.Optional;
 
 @Service
 public class UserService {
     @Autowired
     private final UserRepository userRepository;
+    @Autowired
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtUtil jwtUtil;
     
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
@@ -35,15 +41,18 @@ public class UserService {
 
     }
     // method to check if passwords match and if they do return true to let person login
-    public boolean authenticateUser(String email, String password){
+    public String authenticateUser(String email, String password) {
         Optional<User> userOptional = userRepository.findByEmail(email);
-
-        if(userOptional.isPresent()){
+        
+        if (userOptional.isPresent()) {
             User user = userOptional.get();
-            return passwordEncoder.matches(password, user.getPassword());
+            if (passwordEncoder.matches(password, user.getPassword())) {
+                return jwtUtil.generateToken(email); // ✅ Return JWT token
+            }
         }
-        return false;
-    }    
+        throw new RuntimeException("Invalid credentials");
+    }
+    
     // method to update users
     public User updateUser(Integer userId, User updatedUser) {
         return userRepository.findById(userId).map(existingUser -> {

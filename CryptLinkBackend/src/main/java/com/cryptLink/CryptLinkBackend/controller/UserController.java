@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.Optional;
 
 @RestController
@@ -37,13 +38,14 @@ public class UserController{
     //api function to login, hashes the password typed and compares the stored hash
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestParam String email, @RequestParam String password) {
-        boolean isAuthenticated = userService.authenticateUser(email, password);
-        if (isAuthenticated) {
-            return ResponseEntity.ok("Login successful");
-        } else {
+        try {
+            String token = userService.authenticateUser(email, password);
+            return ResponseEntity.ok(token);  // ✅ Return the JWT token
+        } catch (RuntimeException e) {
             return ResponseEntity.status(401).body("Invalid credentials");
         }
     }
+
 
     // api function that updates a user by userID
     @PutMapping("/{id}")
