@@ -1,6 +1,8 @@
-package com.cryptLink.CryptLinkBackend;
+package com.cryptLink.CryptLinkBackend.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 @Entity
@@ -8,19 +10,23 @@ import jakarta.persistence.Table;
 public class User {
 
     @Id
-    private String userName;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    private Integer userId;
 
+    private String email;
     private String firstName;
     private String lastName;
     private String password;
+    
 
     public User() {}
 
-    public User(String userName, String firstName, String lastName, String password) {
-        this.userName = userName;
+    public User(String email, String firstName, String lastName, String password,Integer userId) {
+        this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
+        this.userId = userId;
     }
 
     // Getter and Setter for firstName
@@ -41,13 +47,13 @@ public class User {
         this.lastName = lastName;
     }
 
-    // Getter and Setter for userName
-    public String getUserName() {
-        return userName;
+    // Getter and Setter for email
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     // Getter and Setter for password
@@ -57,6 +63,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public Integer getId() {
+        return userId;
+    }
+
+    public void setId(Integer userId) {
+        this.userId = userId;
     }
 }    
 
