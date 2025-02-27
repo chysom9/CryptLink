@@ -4,11 +4,10 @@ import './css/App.css';
 import Home from "./JS/Home";
 import Registration from './JS/registration';
 import Login from './JS/login';
-/*import { ReactComponent as CryptLogo } from "./SVG/crpyt_logo.svg";*/
+
 
 function App() {
-  // Toggle state to switch between Login and Registration views (unused with Router)
-  /*const [showLogin, setShowLogin] = useState(true);*/
+  
 
   return (
     <Router>
@@ -18,7 +17,7 @@ function App() {
             <Route path="/Home" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
-            <Route path="*" element={<Home />} /> {/* Default route to home */}
+            <Route path="*" element={<Home />} /> 
           </Routes>
         </header>
       </div>

@@ -12,7 +12,7 @@ html, body, #root {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    width: 100vw; /* Ensure full width */
+    width: 100vw; 
     background: linear-gradient(120deg, #000000, #5563DE);
     font-family: Arial, sans-serif;
 }
@@ -21,7 +21,7 @@ html, body, #root {
     background: #ffffff;
     padding: 2rem;
     border-radius: 8px;
-    min-width: 500px !important; /* Ensure a wider layout */
+    min-width: 500px !important; 
     max-width: 700px !important;
     width: 50% !important;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -85,7 +85,7 @@ button:hover {
     background-color: #4151c9;
 }
 
-/* Media query for responsiveness */
+
 @media (max-width: 768px) {
     .login-form {
         width: 80%;
@@ -94,10 +94,10 @@ button:hover {
 }
 
 .svg-logo {
-    width: 150px;  /* or 10rem, or 50%, etc. */
+    width: 150px;  
     height: auto;
     display: block;
-    margin: 0 auto; /* Center if needed */
+    margin: 0 auto; 
   }
   
   
@@ -118,22 +118,7 @@ button:hover {
     background-color: #d6d6d6;
 }
 
-/* Ensure the white form container has a fixed width and relative positioning
-.login-form,
-.registration-form {
-    background: #ffffff;
-    padding: 2rem;
-    border-radius: 8px;
-    width: 600px;       /* Fixed width */
- /*   max-width: 90%;
- /*   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
- /*   position: relative; /* So that absolute children are positioned within it */
- /*   text-align: center;
-/*    margin: 0 auto;     /* Center the form horizontally */
-/*} 
-/*
 
-/* Home button positioned inside the white div */
 .home-button-top {
     position: absolute;
     top: 20px;
@@ -152,7 +137,7 @@ button:hover {
     background-color: #d6d6d6;
 }
 
-/* Media query for responsiveness */
+
 @media (max-width: 768px) {
     .login-form,
     .registration-form {

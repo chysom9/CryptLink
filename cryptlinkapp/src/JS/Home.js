@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../css/Home.css";  // Updated path to CSS folder
+import "../css/Home.css";  
 import { ReactComponent as HomeLogo } from "../SVG/home_logo.svg";
 
 function Home() {

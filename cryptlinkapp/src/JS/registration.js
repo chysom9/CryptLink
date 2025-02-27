@@ -1,24 +1,24 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "../css/registration.css";  // Updated path to CSS folder
+import "../css/registration.css";  
 import { ReactComponent as CryptLogo } from "../SVG/crpyt_logo.svg";
 
 function Registration() {
-  // State variables for each field
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   
-  // Error handling states
+
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  // Form submit handler
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate fields
+  
     let tempErrors = {};
     if (!firstName.trim()) {
       tempErrors.firstName = "First name is required";
@@ -38,11 +38,11 @@ function Registration() {
     }
     setErrors(tempErrors);
 
-    // If no errors, proceed with registration logic (e.g., API call)
+    
     if (Object.keys(tempErrors).length === 0) {
       console.log("Registration successful:", { firstName, lastName, email, password });
       alert("Registration successful!");
-      // Clear form
+      
       setFirstName("");
       setLastName("");
       setEmail("");
@@ -53,17 +53,17 @@ function Registration() {
   return (
     <div className="registration-container">
       <form className="registration-form" onSubmit={handleSubmit}>
-        {/* Home button inside the white div */}
+        
         <Link to="/" className="home-button-top">Home</Link>
 
-        {/* Clickable SVG Logo */}
+        
         <Link to="/Home" className="logo">
           <CryptLogo className="svg-logo" />
         </Link>
 
         <h2>Create an Account</h2>
 
-        {/* First Name Field */}
+        
         <div className="form-group">
           <label htmlFor="firstName">First Name</label>
           <input
@@ -76,7 +76,7 @@ function Registration() {
           {errors.firstName && <p className="error">{errors.firstName}</p>}
         </div>
 
-        {/* Last Name Field */}
+        
         <div className="form-group">
           <label htmlFor="lastName">Last Name</label>
           <input
@@ -89,7 +89,7 @@ function Registration() {
           {errors.lastName && <p className="error">{errors.lastName}</p>}
         </div>
 
-        {/* Email Field */}
+        
         <div className="form-group">
           <label htmlFor="email">Email Address</label>
           <input
@@ -102,7 +102,7 @@ function Registration() {
           {errors.email && <p className="error">{errors.email}</p>}
         </div>
 
-        {/* Password Field */}
+        
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
@@ -117,7 +117,7 @@ function Registration() {
 
         <button type="submit">Sign Up</button>
 
-        {/* Button to navigate to login */}
+        
         <button
           type="button"
           className="switch-button"
