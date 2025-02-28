@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../css/registration.css";  
 import { ReactComponent as CryptLogo } from "../SVG/crpyt_logo.svg";
+import axios from "axios";
 
 function Registration() {
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [firstName, setfirstName] = useState("");
+  const [lastName, setlastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   
@@ -15,17 +16,13 @@ function Registration() {
   const navigate = useNavigate();
 
  
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-  
+    // Input validation
     let tempErrors = {};
-    if (!firstName.trim()) {
-      tempErrors.firstName = "First name is required";
-    }
-    if (!lastName.trim()) {
-      tempErrors.lastName = "Last name is required";
-    }
+    if (!firstName.trim()) tempErrors.firstName = "First name is required";
+    if (!lastName.trim()) tempErrors.lastName = "Last name is required";
     if (!email.trim()) {
       tempErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
@@ -38,15 +35,26 @@ function Registration() {
     }
     setErrors(tempErrors);
 
-    
-    if (Object.keys(tempErrors).length === 0) {
-      console.log("Registration successful:", { firstName, lastName, email, password });
-      alert("Registration successful!");
-      
-      setFirstName("");
-      setLastName("");
-      setEmail("");
+    // If there are errors, stop execution
+    if (Object.keys(tempErrors).length > 0) return;
+
+    try {
+      const response = await axios.post("https://localhost:8443/api/users/register", {
+        firstName,
+        lastName,
+        email,
+        password,
+      });
+
+      setfirstName('');
+      setlastName('');
+      setEmail('');
       setPassword("");
+      navigate("/login"); // Redirect to login page after successful registration
+
+    } catch (error) {
+      alert(error.response?.data || "Error registering user");
+      console.error("Registration failed:", error.response);
     }
   };
 
@@ -71,7 +79,7 @@ function Registration() {
             type="text"
             placeholder="Enter your first name"
             value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={(e) => setfirstName(e.target.value)}
           />
           {errors.firstName && <p className="error">{errors.firstName}</p>}
         </div>
@@ -84,7 +92,7 @@ function Registration() {
             type="text"
             placeholder="Enter your last name"
             value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            onChange={(e) => setlastName(e.target.value)}
           />
           {errors.lastName && <p className="error">{errors.lastName}</p>}
         </div>
