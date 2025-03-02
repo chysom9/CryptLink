@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../css/registration.css";  
-import { ReactComponent as CryptLogo } from "../SVG/crpyt_logo.svg";
+import { ReactComponent as CryptLogo } from "../SVG/crypt_logo.svg";
 import axios from "axios";
 
 function Registration() {
