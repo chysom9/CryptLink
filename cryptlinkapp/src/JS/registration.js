@@ -78,13 +78,8 @@ function Registration() {
             id="firstName"
             type="text"
             placeholder="Enter your first name"
-<<<<<<< HEAD
-            value={firstname}
-            onChange={(e) => setFirstName(e.target.value)}
-=======
             value={firstName}
             onChange={(e) => setfirstName(e.target.value)}
->>>>>>> c8e13a128783f0001699dc07cefcc945c491e2ee
           />
           {errors.firstName && <p className="error">{errors.firstName}</p>}
         </div>
@@ -96,13 +91,8 @@ function Registration() {
             id="lastName"
             type="text"
             placeholder="Enter your last name"
-<<<<<<< HEAD
-            value={lastname}
-            onChange={(e) => setLastName(e.target.value)}
-=======
             value={lastName}
             onChange={(e) => setlastName(e.target.value)}
->>>>>>> c8e13a128783f0001699dc07cefcc945c491e2ee
           />
           {errors.lastName && <p className="error">{errors.lastName}</p>}
         </div>
