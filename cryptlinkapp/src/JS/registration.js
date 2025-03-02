@@ -6,8 +6,8 @@ import axios from "axios";
 
 function Registration() {
 
-  const [firstname, setFirstName] = useState("");
-  const [lastname, setLastName] = useState("");
+  const [firstName, setfirstName] = useState("");
+  const [lastName, setlastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   
@@ -21,8 +21,8 @@ function Registration() {
 
     // Input validation
     let tempErrors = {};
-    if (!firstname.trim()) tempErrors.firstname = "First name is required";
-    if (!lastname.trim()) tempErrors.lastname = "Last name is required";
+    if (!firstName.trim()) tempErrors.firstName = "First name is required";
+    if (!lastName.trim()) tempErrors.lastName = "Last name is required";
     if (!email.trim()) {
       tempErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
@@ -40,20 +40,21 @@ function Registration() {
 
     try {
       const response = await axios.post("https://localhost:8443/api/users/register", {
-        firstname,
-        lastname,
+        firstName,
+        lastName,
         email,
         password,
       });
 
-      setFirstName('');
-      setLastName('');
+      setfirstName('');
+      setlastName('');
       setEmail('');
       setPassword("");
       navigate("/login"); // Redirect to login page after successful registration
 
     } catch (error) {
       alert(error.response?.data || "Error registering user");
+      console.error("Registration failed:", error.response);
     }
   };
 
@@ -64,7 +65,7 @@ function Registration() {
         <Link to="/" className="home-button-top">Home</Link>
 
         
-        <Link to="/Home" className="logo">
+        <Link to="/landing" className="logo">
           <CryptLogo className="svg-logo" />
         </Link>
 
@@ -77,8 +78,13 @@ function Registration() {
             id="firstName"
             type="text"
             placeholder="Enter your first name"
+<<<<<<< HEAD
             value={firstname}
             onChange={(e) => setFirstName(e.target.value)}
+=======
+            value={firstName}
+            onChange={(e) => setfirstName(e.target.value)}
+>>>>>>> c8e13a128783f0001699dc07cefcc945c491e2ee
           />
           {errors.firstName && <p className="error">{errors.firstName}</p>}
         </div>
@@ -90,8 +96,13 @@ function Registration() {
             id="lastName"
             type="text"
             placeholder="Enter your last name"
+<<<<<<< HEAD
             value={lastname}
             onChange={(e) => setLastName(e.target.value)}
+=======
+            value={lastName}
+            onChange={(e) => setlastName(e.target.value)}
+>>>>>>> c8e13a128783f0001699dc07cefcc945c491e2ee
           />
           {errors.lastName && <p className="error">{errors.lastName}</p>}
         </div>

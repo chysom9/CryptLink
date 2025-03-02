@@ -1,9 +1,10 @@
 import React, {} from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './css/App.css';
-import Home from "./JS/Home";
-import Registration from './JS/registration';
-import Login from './JS/login';
+import Landing from "./JS/Landing";
+import Registration from './JS/Registration';
+import Login from './JS/Login';
+import Home from './JS/Home';
 
 
 function App() {
@@ -14,10 +15,11 @@ function App() {
       <div className="App">
         <header className="App-header">
           <Routes>
-            <Route path="/Home" element={<Home />} />
+            <Route path="/landing" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
-            <Route path="*" element={<Home />} /> 
+            <Route path="/home" element={<Home />} />
+            <Route path="*" element={<Landing />} /> 
           </Routes>
         </header>
       </div>
