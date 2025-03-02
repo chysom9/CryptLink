@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../css/login.css";  
 import { ReactComponent as CryptLogo } from "../SVG/crpyt_logo.svg";
+import axios from "axios";
 
 function Login() {
   
@@ -12,7 +13,7 @@ function Login() {
   const navigate = useNavigate();
 
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
    
@@ -27,15 +28,38 @@ function Login() {
     }
     setErrors(tempErrors);
 
-    
-    if (Object.keys(tempErrors).length === 0) {
-      console.log("Login successful:", { email, password });
-      alert("Login successful!");
-   
-      setEmail("");
-      setPassword("");
+    if (Object.keys(tempErrors).length > 0) {
+      return; // Stop execution if there are errors
     }
+    
+    try {
+      const response = await axios.post("https://localhost:8443/api/users/login", 
+        { email, password }, 
+        { headers: { "Content-Type": "application/json" } }
+      );
+    
+      console.log("Login successful:", response.data);
+      alert("Login successful");
+    
+      setEmail('');
+      setPassword('');
+
+      localStorage.setItem("userToken", response.data); // Store token
+
+      console.log("Navigating to home...");
+
+      setTimeout(() => {
+        navigate("/home");
+      }, 200);  // Small delay to ensure the state updates
+      
+    
+    } catch (error) {
+      alert(error.response?.data || "Error logging in user");
+      console.error("Login failed:", error.response);
+    }
+  
   };
+  
 
   return (
     <div className="login-container">
@@ -43,7 +67,7 @@ function Login() {
       
         <Link to="/" className="home-button-top">Home</Link>
 
-        <Link to="/Home" className="logo">
+        <Link to="/landing" className="logo">
           <CryptLogo className="svg-logo" />
         </Link>
 

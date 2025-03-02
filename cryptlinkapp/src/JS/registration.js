@@ -65,7 +65,7 @@ function Registration() {
         <Link to="/" className="home-button-top">Home</Link>
 
         
-        <Link to="/Home" className="logo">
+        <Link to="/landing" className="logo">
           <CryptLogo className="svg-logo" />
         </Link>
 
