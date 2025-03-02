@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cryptLink.CryptLinkBackend.dto.UserLoginDto;
 import com.cryptLink.CryptLinkBackend.model.User;
 import com.cryptLink.CryptLinkBackend.service.UserService;
 
@@ -62,15 +62,15 @@ public class UserController {
 
     // Login User API with Debug Logs
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestParam String email, @RequestParam String password) {
-        logger.info("Login attempt for user: {}", email);
+    public ResponseEntity<String> loginUser(@RequestBody UserLoginDto loginDto) {
+        logger.info("Login attempt for user: {}", loginDto.getEmail());
         
         try {
-            String token = userService.authenticateUser(email, password);
-            logger.info("Login successful for user: {}", email);
+            String token = userService.authenticateUser(loginDto.getEmail(), loginDto.getPassword());
+            logger.info("Login successful for user: {}", loginDto.getEmail());
             return ResponseEntity.ok(token);
         } catch (RuntimeException e) {
-            logger.warn("Invalid login attempt for user: {}", email);
+            logger.warn("Invalid login attempt for user: {}", loginDto.getEmail());
             return ResponseEntity.status(401).body("Invalid credentials");
         }
     }
