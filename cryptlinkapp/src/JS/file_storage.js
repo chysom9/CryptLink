@@ -10,15 +10,11 @@ function EncryptedFiles() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
+    setIsMenuOpen(!isMenuOpen);
   };
-
 
   // Simulated file encryption (for demonstration only)
-  const encryptFile = (file) => {
-    // In a real-world scenario, use an encryption library to encrypt the file.
-    return file;
-  };
+  const encryptFile = (file) => file;
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -30,20 +26,14 @@ function EncryptedFiles() {
       setStatus("Please select a file to upload.");
       return;
     }
-
     const encryptedFile = encryptFile(selectedFile);
     const formData = new FormData();
     formData.append("file", encryptedFile);
-
     try {
-      // Simulated API call for file upload
       await axios.post("https://localhost:8443/api/files/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
       setStatus("File uploaded successfully!");
-      // Update stored files list (for demo, we simply store the file name)
       setStoredFiles([...storedFiles, selectedFile.name]);
       setSelectedFile(null);
     } catch (error) {
@@ -54,30 +44,27 @@ function EncryptedFiles() {
 
   return (
     <div className="files-container">
-      {/* Top-right Menu Toggle Button */}
-      <button 
-        className="menu-toggle" 
-        onClick={toggleMenu} 
-        aria-label="Toggle menu" 
-        aria-expanded={isMenuOpen}
-      >
-        ☰
-      </button>
-
-      {/* Collapsible Menu (without separate close button) */}
-      {isMenuOpen && (
-        <nav className="menu">
+      {/* Menu Container: Revealed on hover or when toggled open */}
+      <div className="menu-container">
+        <button className="menu-toggle" onClick={toggleMenu} aria-label="Menu">
+          ☰
+        </button>
+        <nav className={`menu ${isMenuOpen ? "open" : ""}`}>
           <ul>
             <li>
-              <Link to="/home" onClick={toggleMenu}>Home</Link>
+              <Link to="/home" onClick={() => setIsMenuOpen(false)}>
+                Home
+              </Link>
             </li>
             <li>
-              <Link to="/messaging" onClick={toggleMenu}>Messaging</Link>
+              <Link to="/messaging" onClick={() => setIsMenuOpen(false)}>
+                Messaging
+              </Link>
             </li>
           </ul>
         </nav>
-      )}
-      
+      </div>
+
       <h2>File Storage</h2>
       <form className="files-form" onSubmit={handleUpload}>
         <div className="form-group">

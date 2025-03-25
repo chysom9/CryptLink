@@ -11,13 +11,10 @@ function Messaging() {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-  }
+  };
 
   // Simulated encryption function (for demo purposes only)
-  const encryptMessage = (msg) => {
-    // For instance, using base64 encoding as a stand-in for encryption
-    return btoa(msg);
-  };
+  const encryptMessage = (msg) => btoa(msg);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,13 +22,9 @@ function Messaging() {
       setStatus("Please provide both recipients and a message.");
       return;
     }
-
     const encryptedMessage = encryptMessage(message);
-
     try {
-      // Simulated API call for sending the encrypted message
       await axios.post("https://localhost:8443/api/messages/send", {
-        // Convert comma separated string into an array of trimmed emails
         recipients: recipients.split(",").map((r) => r.trim()),
         message: encryptedMessage,
       });
@@ -46,29 +39,26 @@ function Messaging() {
 
   return (
     <div className="messages-container">
-      {/* Top-right Menu Toggle */}
-      <button 
-        className="menu-toggle" 
-        onClick={toggleMenu} 
-        aria-label="Toggle menu" 
-        aria-expanded={isMenuOpen}
-      >
-        ☰
-      </button>
-
-      {/* Collapsible Menu */}
-      {isMenuOpen && (
-        <nav className="menu">
+      {/* Menu Container: Revealed on hover or when toggled open */}
+      <div className="menu-container">
+        <button className="menu-toggle" onClick={toggleMenu} aria-label="Menu">
+          ☰
+        </button>
+        <nav className={`menu ${isMenuOpen ? "open" : ""}`}>
           <ul>
             <li>
-              <Link to="/home" onClick={toggleMenu}>Home</Link>
+              <Link to="/home" onClick={() => setIsMenuOpen(false)}>
+                Home
+              </Link>
             </li>
             <li>
-              <Link to="/file_storage" onClick={toggleMenu}>File Storage</Link>
+              <Link to="/file_storage" onClick={() => setIsMenuOpen(false)}>
+                File Storage
+              </Link>
             </li>
           </ul>
         </nav>
-      )}
+      </div>
 
       <h2>Messages</h2>
       <form className="messages-form" onSubmit={handleSubmit}>
