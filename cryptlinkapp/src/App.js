@@ -21,9 +21,10 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
             <Route path="/home" element={<Home />} />
-            <Route path="*" element={<Landing />} /> 
             <Route path="/messaging" element={<Messaging />} />
             <Route path="/file_storage" element={<FileStorage />} />
+            <Route path="*" element={<Landing />} /> 
+          
           </Routes>
         </header>
       </div>

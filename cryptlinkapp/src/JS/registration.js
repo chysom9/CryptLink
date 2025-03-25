@@ -39,7 +39,7 @@ function Registration() {
     if (Object.keys(tempErrors).length > 0) return;
 
     try {
-      const response = await axios.post("https://localhost:8443/api/users/register", {
+      await axios.post("https://localhost:8443/api/users/register", {
         firstName,
         lastName,
         email,
