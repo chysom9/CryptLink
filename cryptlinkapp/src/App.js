@@ -5,6 +5,8 @@ import Landing from "./JS/Landing";
 import Registration from './JS/registration';
 import Login from './JS/login';
 import Home from './JS/Home';
+import Messaging from './JS/messaging';
+import FileStorage from './JS/file_storage';
 
 
 function App() {
@@ -20,6 +22,8 @@ function App() {
             <Route path="/register" element={<Registration />} />
             <Route path="/home" element={<Home />} />
             <Route path="*" element={<Landing />} /> 
+            <Route path="/messaging" element={<Messaging />} />
+            <Route path="/file_storage" element={<FileStorage />} />
           </Routes>
         </header>
       </div>

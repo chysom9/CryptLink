@@ -27,6 +27,14 @@ function Home() {
       <h1>Welcome to CryptLink</h1>
       <p>You have successfully logged in.</p>
 
+      {/* Navigation buttons for additional features */}
+      <button className="home-button" onClick={() => navigate("/messages")}>
+        Messaging
+      </button>
+      <button className="home-button" onClick={() => navigate("/files")}>
+        File Storage
+      </button>
+
       <button className="logout-button" onClick={handleLogout}>
         Logout
       </button>
