@@ -28,10 +28,10 @@ function Home() {
       <p>You have successfully logged in.</p>
 
       {/* Navigation buttons for additional features */}
-      <button className="home-button" onClick={() => navigate("/messages")}>
+      <button className="home-button" onClick={() => navigate("/messaging")}>
         Messaging
       </button>
-      <button className="home-button" onClick={() => navigate("/files")}>
+      <button className="home-button" onClick={() => navigate("/file_storage")}>
         File Storage
       </button>
 
