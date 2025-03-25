@@ -7,6 +7,12 @@ function EncryptedFiles() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [status, setStatus] = useState("");
   const [storedFiles, setStoredFiles] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
 
   // Simulated file encryption (for demonstration only)
   const encryptFile = (file) => {
@@ -48,8 +54,31 @@ function EncryptedFiles() {
 
   return (
     <div className="files-container">
-      <Link to="/home" className="home-button-top">Home</Link>
-      <h2>Secure Encrypted File Storage</h2>
+      {/* Top-right Menu Toggle Button */}
+      <button 
+        className="menu-toggle" 
+        onClick={toggleMenu} 
+        aria-label="Toggle menu" 
+        aria-expanded={isMenuOpen}
+      >
+        ☰
+      </button>
+
+      {/* Collapsible Menu (without separate close button) */}
+      {isMenuOpen && (
+        <nav className="menu">
+          <ul>
+            <li>
+              <Link to="/home" onClick={toggleMenu}>Home</Link>
+            </li>
+            <li>
+              <Link to="/messaging" onClick={toggleMenu}>Messaging</Link>
+            </li>
+          </ul>
+        </nav>
+      )}
+      
+      <h2>File Storage</h2>
       <form className="files-form" onSubmit={handleUpload}>
         <div className="form-group">
           <label htmlFor="file">Select File</label>

@@ -7,6 +7,11 @@ function Messaging() {
   const [recipients, setRecipients] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  }
 
   // Simulated encryption function (for demo purposes only)
   const encryptMessage = (msg) => {
@@ -41,8 +46,31 @@ function Messaging() {
 
   return (
     <div className="messages-container">
-      <Link to="/home" className="home-button-top">Home</Link>
-      <h2>Send Encrypted Message</h2>
+      {/* Top-right Menu Toggle */}
+      <button 
+        className="menu-toggle" 
+        onClick={toggleMenu} 
+        aria-label="Toggle menu" 
+        aria-expanded={isMenuOpen}
+      >
+        ☰
+      </button>
+
+      {/* Collapsible Menu */}
+      {isMenuOpen && (
+        <nav className="menu">
+          <ul>
+            <li>
+              <Link to="/home" onClick={toggleMenu}>Home</Link>
+            </li>
+            <li>
+              <Link to="/file_storage" onClick={toggleMenu}>File Storage</Link>
+            </li>
+          </ul>
+        </nav>
+      )}
+
+      <h2>Messages</h2>
       <form className="messages-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="recipients">Recipients (comma separated)</label>
