@@ -138,4 +138,251 @@ button:hover {
 .status {
   margin-top: 1rem;
   font-size: 1rem;
+}/* Overall container (gradient background) */
+.messages-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2rem;
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(120deg, #000000, #5563DE);
+  color: #fff;
+  font-family: Arial, sans-serif;
 }
+
+/* MENU (top-right) */
+.menu-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+}
+
+.menu-toggle {
+  display: inline-block;
+  background-color: #5563DE;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  z-index: 9999;
+}
+.menu-toggle:hover {
+  background-color: #4151c9;
+}
+
+/* Collapsible menu hidden by default */
+.menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 250px;
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
+  box-sizing: border-box;
+  flex-direction: column;
+  z-index: 9998;
+}
+
+/* Show menu on hover or when toggled open */
+.menu-container:hover .menu,
+.menu.open {
+  display: flex;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 1rem;
+}
+
+.menu li {
+  margin-bottom: 1rem;
+}
+
+.menu a {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem 1rem;
+  background-color: #5563DE;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+  text-align: center;
+}
+.menu a:hover {
+  background-color: #4151c9;
+}
+
+/* WRAPPER for the two-column layout */
+.messaging-wrapper {
+  display: flex;
+  width: 90%;
+  max-width: 1400px;
+  margin: 2rem auto 0 auto;
+  flex-grow: 1; /* Allows vertical expansion if needed */
+}
+
+/* LEFT COLUMN: Conversations Panel */
+.conversations-panel {
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 25%;
+  border-radius: 8px;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 80vh; /* example height for the panel */
+}
+
+.conversations-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+.conversations-header h3 {
+  margin: 0;
+}
+.new-call-btn {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+.new-call-btn:hover {
+  background-color: #555;
+}
+
+.conversations-list {
+  overflow-y: auto;
+  flex-grow: 1; /* fill remaining vertical space */
+}
+
+.conversation-item {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+.conversation-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.conversation-item.active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.conversation-name {
+  font-weight: bold;
+  margin: 0;
+}
+.conversation-last {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+/* RIGHT COLUMN: Chat Panel */
+.chat-panel {
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 75%;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+}
+
+.chat-header {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.chat-header h3 {
+  margin: 0;
+}
+
+/* Chat messages area */
+.chat-messages {
+  flex-grow: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+/* Chat bubbles */
+.message-bubble {
+  max-width: 70%;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: #333;
+  position: relative;
+}
+
+.sent {
+  margin-left: auto;
+  background-color: #5563DE;
+  color: #fff;
+}
+.sent .message-sender {
+  color: #fffa;
+}
+
+.message-sender {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+}
+.message-text {
+  margin: 0;
+}
+
+/* Chat input form at bottom */
+.chat-input {
+  display: flex;
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chat-input input {
+  flex-grow: 1;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  font-size: 1rem;
+}
+.chat-input button {
+  background-color: #5563DE;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+.chat-input button:hover {
+  background-color: #4151c9;
+}
+
+/* If no conversation is selected */
+.no-conversation {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Status text (success/failure) */
+.status {
+  margin: 0.5rem 1rem;
+  font-size: 0.95rem;
+  color: #fff;
+}
+
