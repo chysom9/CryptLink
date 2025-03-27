@@ -96,17 +96,10 @@ import "../css/messaging.css";
 import axios from "axios";
 
 function Messaging() {
-  // State for top-right menu toggle
+  // Menu state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // Track which conversation is selected
+  // Conversation state (dummy conversations)
   const [selectedConversationId, setSelectedConversationId] = useState(null);
-
-  // Input state for the new message
-  const [newMessage, setNewMessage] = useState("");
-  const [status, setStatus] = useState("");
-
-  // Dummy conversation data
   const [conversations, setConversations] = useState([
     {
       id: 1,
@@ -133,30 +126,44 @@ function Messaging() {
     },
   ]);
 
-  // Toggle the top-right menu
+  // Chat input state
+  const [newMessage, setNewMessage] = useState("");
+  const [attachment, setAttachment] = useState(null); // Will store Base64 string
+  const [status, setStatus] = useState("");
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Select a conversation by ID
   const handleSelectConversation = (id) => {
     setSelectedConversationId(id);
     setStatus("");
   };
 
-  // Find the currently selected conversation
   const selectedConversation = conversations.find(
     (conv) => conv.id === selectedConversationId
   );
 
-  // Simulate encryption using base64
+  // Simulate encryption using base64 for text messages
   const encryptMessage = (msg) => btoa(msg);
 
-  // Handle sending a new message
+  // Handle attachment file input change
+  const handleAttachmentChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        // For demo, we simulate encryption by using the Base64 data URL
+        setAttachment(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (!newMessage.trim()) {
-      setStatus("Please enter a message.");
+    if (!newMessage.trim() && !attachment) {
+      setStatus("Please enter a message or attach a file.");
       return;
     }
     if (!selectedConversation) {
@@ -164,28 +171,37 @@ function Messaging() {
       return;
     }
 
-    const encrypted = encryptMessage(newMessage);
+    // Encrypt text message
+    const encryptedText = newMessage.trim() ? encryptMessage(newMessage) : "";
+    // For the attachment, we already have a base64 string in 'attachment'
+    const payload = {
+      recipient: selectedConversation.name, // or email
+      message: encryptedText,
+      attachment: attachment, // May be null if no attachment is selected
+    };
 
     try {
       // Simulate sending message to backend
-      await axios.post("https://localhost:8443/api/messages/send", {
-        recipient: selectedConversation.name, // or an email
-        message: encrypted,
-      });
-
+      await axios.post("https://localhost:8443/api/messages/send", payload);
       // Update local conversation data
       const updatedConversations = conversations.map((conv) => {
         if (conv.id === selectedConversation.id) {
           return {
             ...conv,
-            messages: [...conv.messages, { sender: "You", text: newMessage }],
+            messages: [
+              ...conv.messages,
+              {
+                sender: "You",
+                text: newMessage || (attachment ? "[File Attached]" : ""),
+              },
+            ],
           };
         }
         return conv;
       });
-
       setConversations(updatedConversations);
       setNewMessage("");
+      setAttachment(null);
       setStatus("Message sent!");
     } catch (error) {
       console.error("Error sending message:", error);
@@ -207,24 +223,20 @@ function Messaging() {
                 Home
               </Link>
             </li>
-            <li>
-              <Link to="/messaging" onClick={() => setIsMenuOpen(false)}>
-                Messaging
-              </Link>
-            </li>
+          
             <li>
               <Link to="/file_storage" onClick={() => setIsMenuOpen(false)}>
                 File Storage
               </Link>
             </li>
-            {/* Add additional links as needed (View Messages, etc.) */}
+            {/* You can add more links here if needed */}
           </ul>
         </nav>
       </div>
 
-      {/* TWO-COLUMN LAYOUT FOR WEB APP */}
+      {/* TWO-COLUMN LAYOUT */}
       <div className="messaging-wrapper">
-        {/* LEFT COLUMN: Conversations Panel */}
+        {/* LEFT: Conversations Panel */}
         <div className="conversations-panel">
           <div className="conversations-header">
             <h3>Chats</h3>
@@ -250,7 +262,7 @@ function Messaging() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: Chat Panel */}
+        {/* RIGHT: Chat Panel */}
         <div className="chat-panel">
           {selectedConversation ? (
             <>
@@ -277,8 +289,19 @@ function Messaging() {
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                 />
+                <input
+                  type="file"
+                  id="attachment"
+                  onChange={handleAttachmentChange}
+                  className="attachment-input"
+                />
                 <button type="submit">Send</button>
               </form>
+              {attachment && (
+                <p className="attachment-preview">
+                  Attached file: {attachment.substring(0, 30)}...
+                </p>
+              )}
               {status && <p className="status">{status}</p>}
             </>
           ) : (

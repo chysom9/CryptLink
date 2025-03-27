@@ -1,144 +1,6 @@
-/* Messaging.css */
+/* messaging.css */
 
-.messages-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
-  min-height: 100vh;
-  width: 100vw;
-  background: linear-gradient(120deg, #000000, #5563DE);
-  color: #fff;
-  font-family: Arial, sans-serif;
-}
-
-/* Menu Container for hover and click */
-.menu-container {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-}
-
-/* Menu Toggle Button */
-.menu-toggle {
-  display: inline-block;
-  width: auto;
-  background-color: #5563DE;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  font-size: 1rem;
-  z-index: 9999;
-}
-
-.menu-toggle:hover {
-  background-color: #4151c9;
-}
-
-/* Collapsible Menu */
-.menu {
-  display: none;
-  position: absolute;
-  top: 100%; /* Positioned just below the toggle button */
-  right: 0;
-  width: 250px;
-  background-color: #333;
-  color: white;
-  padding: 1rem;
-  box-sizing: border-box;
-  flex-direction: column;
-  z-index: 9998;
-}
-
-/* Show menu on hover over container or when toggled open */
-.menu-container:hover .menu,
-.menu.open {
-  display: flex;
-}
-
-.menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  margin-top: 1rem;
-}
-
-.menu li {
-  margin-bottom: 1rem;
-}
-
-.menu a {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0.75rem 1rem;
-  background-color: #5563DE;
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-  border-radius: 4px;
-  text-align: center;
-}
-
-.menu a:hover {
-  background-color: #4151c9;
-}
-
-/* Messaging form styles */
-.messages-form {
-  background: #ffffff;
-  padding: 2rem;
-  border-radius: 8px;
-  width: 500px;
-  max-width: 90%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  color: #333;
-  margin-top: 3rem;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-  text-align: left;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  width: 100%;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 4px;
-  background-color: #5563DE;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 1rem;
-  font-size: 1rem;
-}
-
-button:hover {
-  background-color: #4151c9;
-}
-
-.status {
-  margin-top: 1rem;
-  font-size: 1rem;
-}/* Overall container (gradient background) */
+/* Overall container with gradient background */
 .messages-container {
   position: relative;
   display: flex;
@@ -152,13 +14,12 @@ button:hover {
   font-family: Arial, sans-serif;
 }
 
-/* MENU (top-right) */
+/* Top-right menu */
 .menu-container {
   position: fixed;
   top: 1rem;
   right: 1rem;
 }
-
 .menu-toggle {
   display: inline-block;
   background-color: #5563DE;
@@ -173,8 +34,6 @@ button:hover {
 .menu-toggle:hover {
   background-color: #4151c9;
 }
-
-/* Collapsible menu hidden by default */
 .menu {
   display: none;
   position: absolute;
@@ -188,24 +47,19 @@ button:hover {
   flex-direction: column;
   z-index: 9998;
 }
-
-/* Show menu on hover or when toggled open */
 .menu-container:hover .menu,
 .menu.open {
   display: flex;
 }
-
 .menu ul {
   list-style: none;
   padding: 0;
   margin: 0;
   margin-top: 1rem;
 }
-
 .menu li {
   margin-bottom: 1rem;
 }
-
 .menu a {
   display: block;
   width: 100%;
@@ -222,26 +76,26 @@ button:hover {
   background-color: #4151c9;
 }
 
-/* WRAPPER for the two-column layout */
+/* Two-column layout */
 .messaging-wrapper {
   display: flex;
   width: 90%;
   max-width: 1400px;
   margin: 2rem auto 0 auto;
-  flex-grow: 1; /* Allows vertical expansion if needed */
+  flex-grow: 1;
 }
 
-/* LEFT COLUMN: Conversations Panel */
+/* Conversations Panel (left) */
 .conversations-panel {
   background-color: rgba(255, 255, 255, 0.1);
   width: 25%;
+  max-width: 300px;
   border-radius: 8px;
   margin-right: 1rem;
   display: flex;
   flex-direction: column;
-  height: 80vh; /* example height for the panel */
+  height: 80vh;
 }
-
 .conversations-header {
   display: flex;
   justify-content: space-between;
@@ -262,12 +116,10 @@ button:hover {
 .new-call-btn:hover {
   background-color: #555;
 }
-
 .conversations-list {
   overflow-y: auto;
-  flex-grow: 1; /* fill remaining vertical space */
+  flex-grow: 1;
 }
-
 .conversation-item {
   padding: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -289,7 +141,7 @@ button:hover {
   color: #ccc;
 }
 
-/* RIGHT COLUMN: Chat Panel */
+/* Chat Panel (right) */
 .chat-panel {
   background-color: rgba(255, 255, 255, 0.1);
   width: 75%;
@@ -298,7 +150,6 @@ button:hover {
   flex-direction: column;
   height: 80vh;
 }
-
 .chat-header {
   padding: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -306,15 +157,11 @@ button:hover {
 .chat-header h3 {
   margin: 0;
 }
-
-/* Chat messages area */
 .chat-messages {
   flex-grow: 1;
   padding: 1rem;
   overflow-y: auto;
 }
-
-/* Chat bubbles */
 .message-bubble {
   max-width: 70%;
   margin-bottom: 1rem;
@@ -322,9 +169,7 @@ button:hover {
   border-radius: 12px;
   background-color: #ffffff;
   color: #333;
-  position: relative;
 }
-
 .sent {
   margin-left: auto;
   background-color: #5563DE;
@@ -333,7 +178,6 @@ button:hover {
 .sent .message-sender {
   color: #fffa;
 }
-
 .message-sender {
   font-weight: bold;
   margin-bottom: 0.25rem;
@@ -342,15 +186,13 @@ button:hover {
 .message-text {
   margin: 0;
 }
-
-/* Chat input form at bottom */
+/* Chat input area */
 .chat-input {
   display: flex;
   padding: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
-
-.chat-input input {
+.chat-input input[type="text"] {
   flex-grow: 1;
   border: none;
   border-radius: 4px;
@@ -371,6 +213,12 @@ button:hover {
   background-color: #4151c9;
 }
 
+/* Attachment input styling */
+.attachment-input {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
 /* If no conversation is selected */
 .no-conversation {
   flex-grow: 1;
@@ -379,10 +227,16 @@ button:hover {
   justify-content: center;
 }
 
-/* Status text (success/failure) */
+/* Status text */
 .status {
   margin: 0.5rem 1rem;
   font-size: 0.95rem;
   color: #fff;
 }
 
+/* Optional: preview of attachment (show file name snippet) */
+.attachment-preview {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #ccc;
+}
