@@ -22,7 +22,7 @@ function Home() {
 
   const handleLogout = () => {
     localStorage.removeItem("userToken");
-    navigate("/login");
+    navigate("/landing");
   };
 
   return (
