@@ -1,6 +1,4 @@
-/* messaging.css */
-
-/* Overall container with gradient background */
+/* Overall container */
 .messages-container {
   position: relative;
   display: flex;
@@ -85,7 +83,7 @@
   flex-grow: 1;
 }
 
-/* Conversations Panel (left) */
+/* Conversations Panel */
 .conversations-panel {
   background-color: rgba(255, 255, 255, 0.1);
   width: 25%;
@@ -141,7 +139,61 @@
   color: #ccc;
 }
 
-/* Chat Panel (right) */
+/* Add Friends Section */
+.add-friends-section {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+.add-friends-section h4 {
+  margin: 0 0 0.5rem 0;
+}
+.friend-search {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+.friend-search input[type="text"] {
+  width: calc(100% - 110px);
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+.friend-search button.search-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #5563DE;
+  color: #fff;
+  cursor: pointer;
+}
+.friend-search button.search-btn:hover {
+  background-color: #4151c9;
+}
+.friend-results {
+  margin-top: 0.5rem;
+}
+.friend-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.friend-item button.add-btn {
+  padding: 0.3rem 0.6rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #5563DE;
+  color: #fff;
+  cursor: pointer;
+}
+.friend-item button.add-btn:hover {
+  background-color: #4151c9;
+}
+
+/* Chat Panel */
 .chat-panel {
   background-color: rgba(255, 255, 255, 0.1);
   width: 75%;
@@ -186,7 +238,6 @@
 .message-text {
   margin: 0;
 }
-/* Chat input area */
 .chat-input {
   display: flex;
   padding: 1rem;
@@ -212,31 +263,23 @@
 .chat-input button:hover {
   background-color: #4151c9;
 }
-
-/* Attachment input styling */
 .attachment-input {
   margin-top: 0.5rem;
   font-size: 0.9rem;
 }
-
-/* If no conversation is selected */
+.attachment-preview {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #ccc;
+}
 .no-conversation {
   flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
-/* Status text */
 .status {
   margin: 0.5rem 1rem;
   font-size: 0.95rem;
   color: #fff;
-}
-
-/* Optional: preview of attachment (show file name snippet) */
-.attachment-preview {
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-  color: #ccc;
 }

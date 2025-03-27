@@ -131,6 +131,18 @@ function Messaging() {
   const [attachment, setAttachment] = useState(null); // Will store Base64 string
   const [status, setStatus] = useState("");
 
+  // Friend search state
+  const [searchQuery, setSearchQuery] = useState("");
+  const [friendResults, setFriendResults] = useState([]);
+
+  // Dummy registered users (simulate backend data)
+  const dummyRegisteredUsers = [
+    { id: 4, name: "Diana" },
+    { id: 5, name: "Eve" },
+    { id: 6, name: "Frank" },
+    { id: 7, name: "Grace" },
+  ];
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -147,7 +159,7 @@ function Messaging() {
   // Simulate encryption using base64 for text messages
   const encryptMessage = (msg) => btoa(msg);
 
-  // Handle attachment file input change
+  // Handle file attachment change
   const handleAttachmentChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -160,6 +172,7 @@ function Messaging() {
     }
   };
 
+  // Handle sending a new message with optional attachment
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!newMessage.trim() && !attachment) {
@@ -170,18 +183,14 @@ function Messaging() {
       setStatus("No conversation selected.");
       return;
     }
-
-    // Encrypt text message
     const encryptedText = newMessage.trim() ? encryptMessage(newMessage) : "";
-    // For the attachment, we already have a base64 string in 'attachment'
     const payload = {
-      recipient: selectedConversation.name, // or email
+      recipient: selectedConversation.name,
       message: encryptedText,
-      attachment: attachment, // May be null if no attachment is selected
+      attachment: attachment, // May be null if no file attached
     };
 
     try {
-      // Simulate sending message to backend
       await axios.post("https://localhost:8443/api/messages/send", payload);
       // Update local conversation data
       const updatedConversations = conversations.map((conv) => {
@@ -190,10 +199,7 @@ function Messaging() {
             ...conv,
             messages: [
               ...conv.messages,
-              {
-                sender: "You",
-                text: newMessage || (attachment ? "[File Attached]" : ""),
-              },
+              { sender: "You", text: newMessage || (attachment ? "[File Attached]" : "") },
             ],
           };
         }
@@ -207,6 +213,29 @@ function Messaging() {
       console.error("Error sending message:", error);
       setStatus("Failed to send message.");
     }
+  };
+
+  // Friend search handlers
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleFriendSearch = () => {
+    const results = dummyRegisteredUsers.filter((user) =>
+      user.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFriendResults(results);
+  };
+
+  const handleAddFriend = (friend) => {
+    alert(`${friend.name} added as a friend!`);
+    // Add friend to conversation list if not already present
+    if (!conversations.find((conv) => conv.name === friend.name)) {
+      const newConv = { id: Date.now(), name: friend.name, messages: [] };
+      setConversations([...conversations, newConv]);
+    }
+    setSearchQuery("");
+    setFriendResults([]);
   };
 
   return (
@@ -223,20 +252,19 @@ function Messaging() {
                 Home
               </Link>
             </li>
-          
             <li>
               <Link to="/file_storage" onClick={() => setIsMenuOpen(false)}>
                 File Storage
               </Link>
             </li>
-            {/* You can add more links here if needed */}
+            {/* Additional links can be added here */}
           </ul>
         </nav>
       </div>
 
       {/* TWO-COLUMN LAYOUT */}
       <div className="messaging-wrapper">
-        {/* LEFT: Conversations Panel */}
+        {/* LEFT COLUMN: Conversations Panel and Add Friends Section */}
         <div className="conversations-panel">
           <div className="conversations-header">
             <h3>Chats</h3>
@@ -244,8 +272,7 @@ function Messaging() {
           </div>
           <div className="conversations-list">
             {conversations.map((conv) => {
-              const lastMsg =
-                conv.messages[conv.messages.length - 1]?.text || "";
+              const lastMsg = conv.messages[conv.messages.length - 1]?.text || "";
               return (
                 <div
                   key={conv.id}
@@ -260,9 +287,34 @@ function Messaging() {
               );
             })}
           </div>
+          {/* Add Friends Section */}
+          <div className="add-friends-section">
+            <h4>Add Friends</h4>
+            <div className="friend-search">
+              <input
+                type="text"
+                placeholder="Search for users..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+              />
+              <button className="search-btn" onClick={handleFriendSearch}>
+                Search
+              </button>
+            </div>
+            <div className="friend-results">
+              {friendResults.map((friend) => (
+                <div key={friend.id} className="friend-item">
+                  <span>{friend.name}</span>
+                  <button className="add-btn" onClick={() => handleAddFriend(friend)}>
+                    Add
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
-        {/* RIGHT: Chat Panel */}
+        {/* RIGHT COLUMN: Chat Panel */}
         <div className="chat-panel">
           {selectedConversation ? (
             <>
@@ -273,9 +325,7 @@ function Messaging() {
                 {selectedConversation.messages.map((msg, index) => (
                   <div
                     key={index}
-                    className={`message-bubble ${
-                      msg.sender === "You" ? "sent" : "received"
-                    }`}
+                    className={`message-bubble ${msg.sender === "You" ? "sent" : "received"}`}
                   >
                     <p className="message-sender">{msg.sender}</p>
                     <p className="message-text">{msg.text}</p>
