@@ -6,13 +6,13 @@ import SockJS from 'sockjs-client';
 
 var stompClient = null;
 const ChatRoom = () => {
-  // Menu state added
+  // TOP-RIGHT MENU STATE
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Existing state and logic
+  // CHAT STATE
   const [privateChats, setPrivateChats] = useState(new Map());     
   const [publicChats, setPublicChats] = useState([]); 
   const [tab, setTab] = useState("CHATROOM");
@@ -23,8 +23,8 @@ const ChatRoom = () => {
     message: ''
   });
 
-  // NEW: File hyperlink state for sharing file URLs
-  const [fileLink, setFileLink] = useState("");
+  // NEW: File upload state for storing the selected file
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     console.log(userData);
@@ -90,42 +90,81 @@ const ChatRoom = () => {
     setUserData({ ...userData, "message": value });
   };
 
-  // NEW: Handle changes for file hyperlink input
-  const handleFileLinkChange = (event) => {
-    setFileLink(event.target.value);
+  // NEW: File upload handler
+  const handleFileUpload = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setSelectedFile(event.target.files[0]);
+    }
   };
 
   const sendValue = () => {
     if (stompClient) {
-      var chatMessage = {
-        senderName: userData.username,
-        message: userData.message,
-        fileLink: fileLink, // Include file hyperlink if provided
-        status: "MESSAGE"
-      };
-      console.log(chatMessage);
-      stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
-      setUserData({ ...userData, "message": "" });
-      setFileLink("");
+      if (selectedFile) {
+        // If a file is selected, read it as base64 and include in the message
+        const reader = new FileReader();
+        reader.onload = () => {
+          var chatMessage = {
+            senderName: userData.username,
+            message: userData.message,
+            fileName: selectedFile.name,
+            fileData: reader.result, // base64 encoded file data
+            status: "MESSAGE"
+          };
+          console.log(chatMessage);
+          stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+          setUserData({ ...userData, "message": "" });
+          setSelectedFile(null);
+        };
+        reader.readAsDataURL(selectedFile);
+      } else {
+        var chatMessage = {
+          senderName: userData.username,
+          message: userData.message,
+          status: "MESSAGE"
+        };
+        console.log(chatMessage);
+        stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+        setUserData({ ...userData, "message": "" });
+      }
     }
   };
 
   const sendPrivateValue = () => {
     if (stompClient) {
-      var chatMessage = {
-        senderName: userData.username,
-        receiverName: tab,
-        message: userData.message,
-        fileLink: fileLink, // Include file hyperlink if provided
-        status: "MESSAGE"
-      };
-      if (userData.username !== tab) {
-        privateChats.get(tab).push(chatMessage);
-        setPrivateChats(new Map(privateChats));
+      if (selectedFile) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          var chatMessage = {
+            senderName: userData.username,
+            receiverName: tab,
+            message: userData.message,
+            fileName: selectedFile.name,
+            fileData: reader.result,
+            status: "MESSAGE"
+          };
+          if (userData.username !== tab) {
+            privateChats.get(tab).push(chatMessage);
+            setPrivateChats(new Map(privateChats));
+          }
+          stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
+          setUserData({ ...userData, "message": "" });
+          setSelectedFile(null);
+        };
+        reader.readAsDataURL(selectedFile);
+      } else {
+        var chatMessage = {
+          senderName: userData.username,
+          receiverName: tab,
+          message: userData.message,
+          status: "MESSAGE"
+        };
+        if (userData.username !== tab) {
+          privateChats.get(tab).push(chatMessage);
+          setPrivateChats(new Map(privateChats));
+        }
+        stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
+        setUserData({ ...userData, "message": "" });
       }
-      stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
-      setUserData({ ...userData, "message": "" });
-      setFileLink("");
     }
   };
 
@@ -166,7 +205,9 @@ const ChatRoom = () => {
             <ul>
               <li onClick={() => { setTab("CHATROOM") }} className={`member ${tab==="CHATROOM" && "active"}`}>Chatroom</li>
               {[...privateChats.keys()].map((name, index) => (
-                <li onClick={() => { setTab(name) }} className={`member ${tab===name && "active"}`} key={index}>{name}</li>
+                <li onClick={() => { setTab(name) }} className={`member ${tab===name && "active"}`} key={index}>
+                  {name}
+                </li>
               ))}
             </ul>
           </div>
@@ -178,9 +219,9 @@ const ChatRoom = () => {
                     {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
                     <div className="message-data">
                       {chat.message}
-                      {chat.fileLink && (
-                        <div className="file-link">
-                          <a href={chat.fileLink} target="_blank" rel="noopener noreferrer">View File</a>
+                      {chat.fileData && (
+                        <div className="file-upload">
+                          <a href={chat.fileData} download={chat.fileName}>Download File</a>
                         </div>
                       )}
                     </div>
@@ -189,13 +230,19 @@ const ChatRoom = () => {
                 ))}
               </ul>
               <div className="send-message">
-                <input type="text" className="input-message" placeholder="Enter the message" value={userData.message} onChange={handleMessage} />
                 <input
                   type="text"
-                  className="file-link-input"
-                  placeholder="Enter file hyperlink (optional)"
-                  value={fileLink}
-                  onChange={handleFileLinkChange}
+                  className="input-message"
+                  placeholder="Enter the message"
+                  value={userData.message}
+                  onChange={handleMessage}
+                  maxLength="500"
+                />
+                {/* File upload input */}
+                <input
+                  type="file"
+                  className="file-upload-input"
+                  onChange={handleFileUpload}
                 />
                 <button type="button" className="send-button" onClick={sendValue}>Send</button>
               </div>
@@ -208,9 +255,9 @@ const ChatRoom = () => {
                     {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
                     <div className="message-data">
                       {chat.message}
-                      {chat.fileLink && (
-                        <div className="file-link">
-                          <a href={chat.fileLink} target="_blank" rel="noopener noreferrer">View File</a>
+                      {chat.fileData && (
+                        <div className="file-upload">
+                          <a href={chat.fileData} download={chat.fileName}>Download File</a>
                         </div>
                       )}
                     </div>
@@ -219,13 +266,19 @@ const ChatRoom = () => {
                 ))}
               </ul>
               <div className="send-message">
-                <input type="text" className="input-message" placeholder="Enter the message" value={userData.message} onChange={handleMessage} />
                 <input
                   type="text"
-                  className="file-link-input"
-                  placeholder="Enter file hyperlink (optional)"
-                  value={fileLink}
-                  onChange={handleFileLinkChange}
+                  className="input-message"
+                  placeholder="Enter the message"
+                  value={userData.message}
+                  onChange={handleMessage}
+                  maxLength="500"
+                />
+                {/* File upload input */}
+                <input
+                  type="file"
+                  className="file-upload-input"
+                  onChange={handleFileUpload}
                 />
                 <button type="button" className="send-button" onClick={sendPrivateValue}>Send</button>
               </div>

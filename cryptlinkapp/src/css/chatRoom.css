@@ -143,7 +143,7 @@
   margin: 0;
 }
 
-/* New: Style for file hyperlink display in messages */
+/* New: File hyperlink styling within messages */
 .file-link {
   margin-top: 0.5rem;
 }
