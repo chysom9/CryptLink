@@ -49,7 +49,7 @@ function Login() {
       console.log("Navigating to home...");
 
       setTimeout(() => {
-        navigate("/home");
+        navigate("/CodeVerification");
       }, 200);  // Small delay to ensure the state updates
       
     
@@ -57,9 +57,33 @@ function Login() {
       alert(error.response?.data || "Error logging in user");
       console.error("Login failed:", error.response);
     }
+    try {
+      const response = await axios.post("https://localhost:8443/api/auth/send-otp", 
+        { email}, 
+        { headers: { "Content-Type": "application/json" } }
+      );
+    
+      console.log("Send OTP!:", response.data);
+      alert("Sent OTP!");
+    
+      setEmail('');
+      setPassword('');
+
+      localStorage.setItem("userToken", response.data); // Store token
+
+      console.log("Navigating to CodeVerifiaction...");
+
+      setTimeout(() => {
+        navigate("/CodeVerification");
+      }, 200);  // Small delay to ensure the state updates
+      
+    
+    } catch (error) {
+      alert(error.response?.data || "Error sending OTP");
+      console.error("OTP Send Failed:", error.response);
+    }
   
   };
-  
 
   return (
     <div className="login-container">
