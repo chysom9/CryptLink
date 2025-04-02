@@ -34,6 +34,9 @@ function Home() {
       <button className="home-button" onClick={() => navigate("/messaging")}>
         Messaging
       </button>
+      <button className="home-button" onClick={() => navigate("/chatRoom")}>
+        Chat Room
+      </button>
       <button className="home-button" onClick={() => navigate("/file_storage")}>
         File Storage
       </button>

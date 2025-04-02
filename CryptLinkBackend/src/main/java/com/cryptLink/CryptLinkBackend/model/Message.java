@@ -1,22 +1,18 @@
 package com.cryptLink.CryptLinkBackend.model;
 
-import jakarta.persistence.Access;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-@Getter
-@Setter
+import java.util.Date;
+
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @ToString
 public class Message {
-    
     private String senderName;
     private String receiverName;
-    private String messageContent;
-    private String date; 
+    private String message;
+    private String date;
     private Status status;
 }

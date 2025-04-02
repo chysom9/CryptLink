@@ -7,6 +7,7 @@ import Login from './JS/login';
 import Home from './JS/Home';
 import Messaging from './JS/messaging';
 import FileStorage from './JS/file_storage';
+import ChatRoom from './JS/chatRoom';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route path="/register" element={<Registration />} />
             <Route path="/home" element={<Home />} />
             <Route path="/messaging" element={<Messaging />} />
+            <Route path="/chatRoom" element={<ChatRoom />} />
             <Route path="/file_storage" element={<FileStorage />} />
             <Route path="*" element={<Landing />} /> 
           
