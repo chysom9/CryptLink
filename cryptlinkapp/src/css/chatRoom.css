@@ -1,4 +1,4 @@
-body {
+/* body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -123,4 +123,198 @@ body {
   }
   .message.self{
     justify-content: end;
-  }
+  } */
+
+  /* Use similar styles as messaging.css for consistency */
+
+/* Overall container */
+.container {
+  position: relative;
+  padding: 2rem;
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(120deg, #000000, #5563DE);
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+/* Top-right menu */
+.menu-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+}
+.menu-toggle {
+  display: inline-block;
+  background-color: #5563DE;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  z-index: 9999;
+}
+.menu-toggle:hover {
+  background-color: #4151c9;
+}
+.menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 250px;
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
+  box-sizing: border-box;
+  flex-direction: column;
+  z-index: 9998;
+}
+.menu-container:hover .menu,
+.menu.open {
+  display: flex;
+}
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 1rem;
+}
+.menu li {
+  margin-bottom: 1rem;
+}
+.menu a {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem 1rem;
+  background-color: #5563DE;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+  text-align: center;
+}
+.menu a:hover {
+  background-color: #4151c9;
+}
+
+/* Chat box styles (from your original chat room) */
+.chat-box {
+  display: flex;
+  flex-direction: row;
+  height: 80vh;
+  margin-top: 2rem;
+  width: 90%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Member list (left panel) */
+.member-list {
+  width: 25%;
+  background: rgba(255, 255, 255, 0.1);
+  overflow-y: auto;
+  padding: 1rem;
+}
+.member-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.member {
+  padding: 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.member:hover,
+.member.active {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Chat content (right panel) */
+.chat-content {
+  width: 75%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.chat-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+.message {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border-radius: 12px;
+  background: #fff;
+  color: #333;
+  max-width: 70%;
+}
+.message.self {
+  margin-left: auto;
+  background: #5563DE;
+  color: #fff;
+}
+.avatar {
+  padding: 0.5rem;
+  background: #ccc;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+.avatar.self {
+  background: #aaa;
+}
+.message-data {
+  display: flex;
+  flex-direction: column;
+}
+.send-message {
+  display: flex;
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.input-message {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+}
+.send-button {
+  padding: 0.5rem 1rem;
+  margin-left: 0.5rem;
+  background: #5563DE;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+}
+.send-button:hover {
+  background: #4151c9;
+}
+
+/* Register form (when not connected) */
+.register {
+  position: fixed;
+  padding: 30px;
+  background: #fff;
+  color: #333;
+  border-radius: 8px;
+  top: 35%;
+  left: 32%;
+}
+
+/* Status text */
+.status {
+  margin: 0.5rem 1rem;
+  font-size: 0.95rem;
+  color: #fff;
+}
