@@ -57,8 +57,8 @@ function EncryptedFiles() {
               </Link>
             </li>
             <li>
-              <Link to="/messaging" onClick={() => setIsMenuOpen(false)}>
-                Messaging
+              <Link to="/chatroom" onClick={() => setIsMenuOpen(false)}>
+                Chat Room
               </Link>
             </li>
           </ul>
