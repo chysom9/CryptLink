@@ -7,7 +7,7 @@ function CodeVerification() {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  const email = localStorage.getItem("email"); // Retrieve the email from local storage
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Validate that code is 6 digits
@@ -18,12 +18,14 @@ function CodeVerification() {
     try {
       // Send the code to your backend for verification.
       // Adjust the endpoint and response handling as needed.
+
       const response = await axios.post(
-        "https://localhost:8443/api/users/verify-code",
-        { code },
+        "https://localhost:8443/api/auth/verify-otp",
+        {email, code},
         { headers: { "Content-Type": "application/json" } }
       );
-      if (response.data.success) {
+      console.log("Verification response:", response.data);
+      if (response.data == "Authentication successful!") {
         // If the code is correct, navigate to Home
         navigate("/home");
       } else {
