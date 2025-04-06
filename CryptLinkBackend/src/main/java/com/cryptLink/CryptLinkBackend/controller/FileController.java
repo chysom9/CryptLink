@@ -2,6 +2,7 @@ package com.cryptLink.CryptLinkBackend.controller;
 
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional; // Adjust the package path if necessary
 
 import org.slf4j.Logger;
@@ -103,4 +104,14 @@ public class FileController {
 
         return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
     }
+
+    @GetMapping("/user/{userId}")
+public ResponseEntity<List<FileMetadata>> getFilesByUser(@PathVariable("userId") Integer userId) {
+    List<FileMetadata> files = fileRepo.findByOwnerId(userId);
+    if (files.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(files);
+    }
+    return ResponseEntity.ok(files);
+}
+
 }
