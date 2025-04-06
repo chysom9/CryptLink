@@ -34,7 +34,9 @@ public class SecurityConfig {
                 "/api/files/{fileid}",
                 "/ws/**",
                 "/api/auth/send-otp",
-                "/api/auth/verify-otp"
+                "/api/auth/verify-otp",
+                "/api/files/user/{userId}"
+
                 ).permitAll() // Public access
                 .anyRequest().authenticated() // Secure other endpoints
             )
