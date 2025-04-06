@@ -8,6 +8,8 @@ import Home from './JS/Home';
 import Messaging from './JS/messaging';
 import FileStorage from './JS/file_storage';
 import ChatRoom from './JS/chatRoom';
+import CodeVerification from "./JS/CodeVerification";
+
 
 
 function App() {
@@ -24,6 +26,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/messaging" element={<Messaging />} />
             <Route path="/chatRoom" element={<ChatRoom />} />
+            <Route path="/codeVerification" element={<CodeVerification />} />
             <Route path="/file_storage" element={<FileStorage />} />
             <Route path="*" element={<Landing />} /> 
           

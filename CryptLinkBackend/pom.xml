@@ -95,7 +95,11 @@
 			<artifactId>stomp-websocket</artifactId>
 			<version>2.3.3</version>
 		</dependency>
-
+		<!--OTP Email-->
+		<dependency>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 	<sourceDirectory>src/main/java</sourceDirectory>

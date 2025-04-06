@@ -31,9 +31,9 @@ function Home() {
       <h1>Welcome to CryptLink</h1>
 
       {/* Navigation buttons for additional features */}
-      <button className="home-button" onClick={() => navigate("/messaging")}>
+      {/* <button className="home-button" onClick={() => navigate("/messaging")}>
         Messaging
-      </button>
+      </button> */}
       <button className="home-button" onClick={() => navigate("/chatRoom")}>
         Chat Room
       </button>
