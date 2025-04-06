@@ -39,7 +39,7 @@ function Login() {
       );
     
       console.log("Login successful:", response.data);
-      alert("Login successful");
+      
     
       setEmail('');
       setPassword('');

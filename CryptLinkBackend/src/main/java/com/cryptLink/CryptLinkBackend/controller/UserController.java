@@ -1,6 +1,7 @@
 package com.cryptLink.CryptLinkBackend.controller;
 
 import java.util.Optional;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +72,8 @@ public class UserController {
             return ResponseEntity.ok(token);
         } catch (RuntimeException e) {
             logger.warn("Invalid login attempt for user: {}", loginDto.getEmail());
-            return ResponseEntity.status(401).body("Invalid credentials");
+            String response = "{\"error\": \"Invalid credentials\"}";
+            return ResponseEntity.status(401).body(response);
         }
     }
 
