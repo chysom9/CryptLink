@@ -31,7 +31,10 @@ public class SecurityConfig {
                 .requestMatchers("/","/error","/api/users/register", 
                 "/api/users/login",
                 "/api/files/upload",
-                "/api/files/{fileid}"
+                "/api/files/{fileid}",
+                "/ws/**",
+                "/api/auth/send-otp",
+                "/api/auth/verify-otp"
                 ).permitAll() // Public access
                 .anyRequest().authenticated() // Secure other endpoints
             )

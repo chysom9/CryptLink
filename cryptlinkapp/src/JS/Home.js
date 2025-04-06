@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/home.css";
+import "../css/Home.css";
+
+import { ReactComponent as HomeLogo } from "../SVG/home_logo.svg";
+
 
 function Home() {
   const navigate = useNavigate();
@@ -19,13 +22,24 @@ function Home() {
 
   const handleLogout = () => {
     localStorage.removeItem("userToken");
-    navigate("/login");
+    navigate("/landing");
   };
 
   return (
     <div className="home-container">
+      <HomeLogo className="home-logo" />
       <h1>Welcome to CryptLink</h1>
-      <p>You have successfully logged in.</p>
+
+      {/* Navigation buttons for additional features */}
+      {/* <button className="home-button" onClick={() => navigate("/messaging")}>
+        Messaging
+      </button> */}
+      <button className="home-button" onClick={() => navigate("/chatRoom")}>
+        Chat Room
+      </button>
+      <button className="home-button" onClick={() => navigate("/file_storage")}>
+        File Storage
+      </button>
 
       <button className="logout-button" onClick={handleLogout}>
         Logout
