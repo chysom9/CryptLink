@@ -11,7 +11,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    private Integer userId;
+    private Integer userId; // primary key
 
     private String email;
     private String firstName;
