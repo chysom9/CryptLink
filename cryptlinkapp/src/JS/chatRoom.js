@@ -306,18 +306,16 @@
 // export default ChatRoom;
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from "react-router-dom";
-import "../css/chatRoom.css";  
+import "../css/chatRoom.css";
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
-import axios from 'axios';
 
 var stompClient = null;
+
 const ChatRoom = () => {
-  // TOP-RIGHT MENU STATE
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  // CHAT STATE
   const [privateChats, setPrivateChats] = useState(new Map());
   const [publicChats, setPublicChats] = useState([]);
   const [tab, setTab] = useState("CHATROOM");
@@ -328,12 +326,12 @@ const ChatRoom = () => {
     message: ''
   });
 
-  // File upload state
+  // File state for base64 conversion (client-only, not saved on backend)
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    console.log("[useEffect] userData:", userData);
+    console.log("[useEffect] userData changed:", userData);
   }, [userData]);
 
   const connect = () => {
@@ -351,6 +349,10 @@ const ChatRoom = () => {
     userJoin();
   };
 
+  const onError = (err) => {
+    console.error("[onError] Error:", err);
+  };
+
   const userJoin = () => {
     console.log("[userJoin] Sending JOIN message");
     const chatMessage = {
@@ -361,22 +363,25 @@ const ChatRoom = () => {
   };
 
   const onMessageReceived = (payload) => {
+    console.log("[onMessageReceived] raw payload.body =", payload.body);
     const payloadData = JSON.parse(payload.body);
-    console.log("[onMessageReceived] Payload:", payloadData);
+    console.log("[onMessageReceived] parsed payloadData =", payloadData);
     if (payloadData.status === "JOIN") {
       if (!privateChats.get(payloadData.senderName)) {
         privateChats.set(payloadData.senderName, []);
         setPrivateChats(new Map(privateChats));
       }
     } else if (payloadData.status === "MESSAGE") {
+      console.log("[onMessageReceived] Received message with fileData =", payloadData.fileData);
       publicChats.push(payloadData);
       setPublicChats([...publicChats]);
     }
   };
 
   const onPrivateMessage = (payload) => {
-    console.log("[onPrivateMessage] Payload:", payload);
+    console.log("[onPrivateMessage] raw payload.body =", payload.body);
     const payloadData = JSON.parse(payload.body);
+    console.log("[onPrivateMessage] parsed payloadData =", payloadData);
     if (privateChats.get(payloadData.senderName)) {
       privateChats.get(payloadData.senderName).push(payloadData);
       setPrivateChats(new Map(privateChats));
@@ -386,23 +391,18 @@ const ChatRoom = () => {
     }
   };
 
-  const onError = (err) => {
-    console.error("[onError] Error:", err);
-  };
-
   const handleMessage = (event) => {
     setUserData({ ...userData, message: event.target.value });
   };
 
-  // File upload handler with logging
   const handleFileUpload = (event) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      console.log("[handleFileUpload] Selected file:", file.name, "size:", file.size);
+      console.log("[handleFileUpload] Selected file:", file.name, "size:", file.size, "type:", file.type);
       if (file.size > 0) {
         setSelectedFile(file);
       } else {
-        console.error("[handleFileUpload] File is empty.");
+        console.warn("[handleFileUpload] File is empty.");
         setSelectedFile(null);
       }
     } else {
@@ -411,7 +411,7 @@ const ChatRoom = () => {
     }
   };
 
-  // Render a clickable download link.
+  // Render a clickable download link using the fileData (base64 URL)
   const renderFile = (chat) => {
     if (!chat.fileData) return null;
     return (
@@ -423,9 +423,7 @@ const ChatRoom = () => {
     );
   };
 
-  // Render chat bubble:
-  // If fileData exists, ignore the message text and show only the download link.
-  // Otherwise, display the text message.
+  // Render the chat bubble using CSS classes from chatRoom.css
   const renderBubble = (chat) => {
     return (
       <div className={`message-bubble ${chat.senderName === userData.username ? "sent" : ""}`}>
@@ -434,16 +432,11 @@ const ChatRoom = () => {
     );
   };
 
-  // Render each message with proper alignment.
+  // Render each message as a list item with proper class names for styling
   const renderMessage = (chat, index) => {
     const isSelf = chat.senderName === userData.username;
     return (
-      <li key={index} style={{
-          display: 'flex',
-          justifyContent: isSelf ? 'flex-end' : 'flex-start',
-          alignItems: 'center',
-          marginBottom: '0.5rem'
-        }}>
+      <li key={index} className={`chat-message ${isSelf ? "self" : "other"}`}>
         {!isSelf && <div className="avatar">{chat.senderName}</div>}
         {renderBubble(chat)}
         {isSelf && <div className="avatar self">{chat.senderName}</div>}
@@ -451,92 +444,99 @@ const ChatRoom = () => {
     );
   };
 
-  // Upload the file and send a chat message with the public URL.
+  // Convert the selected file to a base64 data URL and attach it to the chat message.
   const sendValue = () => {
-    console.log("[sendValue] Send clicked. Selected file:", selectedFile);
     if (!stompClient) {
-      console.warn("[sendValue] Not connected.");
+      console.warn("[sendValue] stompClient is not connected.");
       return;
     }
-    if (selectedFile) {
-      const formData = new FormData();
-      formData.append("file", selectedFile);
-      formData.append("userId", 1);
-      
-      axios.post("https://localhost:8443/api/files/upload", formData)
-      .then((response) => {
-        const publicUrl = response.data; // Expect public URL string
-        console.log("[sendValue] File uploaded. Public URL:", publicUrl);
-        const msgText = userData.message.trim() === "" ? "File Sent" : userData.message;
+    console.log("[sendValue] Attempting to send a message...");
+    let file = selectedFile || (fileInputRef.current && fileInputRef.current.files[0]);
+    if (file) {
+      console.log("[sendValue] Found a file to send:", file.name);
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.result) {
+          console.log("[sendValue] FileReader onload triggered. Data URL length:", reader.result.length);
+        } else {
+          console.warn("[sendValue] FileReader onload triggered but reader.result is undefined.");
+        }
+        // Build the ChatMessage payload matching your ChatMessage model
         const chatMessage = {
           senderName: userData.username,
-          message: msgText,
-          fileName: selectedFile.name,
-          fileData: publicUrl,
+          receiverName: null, // For public messages, leave null
+          message: userData.message.trim() === "" ? "File Sent" : userData.message,
+          fileName: file.name,
+          fileData: reader.result || "",
           status: "MESSAGE"
         };
-        console.log("[sendValue] Sending payload:", chatMessage);
+        console.log("[sendValue] Final chatMessage to send:", chatMessage);
         stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
         setUserData({ ...userData, message: "" });
         setSelectedFile(null);
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
-      })
-      .catch((err) => {
-        console.error("[sendValue] Error uploading file:", err);
-      });
+      };
+      reader.onerror = (err) => {
+        console.error("[sendValue] FileReader error:", err);
+      };
+      reader.readAsDataURL(file);
     } else {
+      console.log("[sendValue] No file found, sending text only.");
       const chatMessage = {
         senderName: userData.username,
+        receiverName: null,
         message: userData.message,
         status: "MESSAGE"
       };
-      console.log("[sendValue] Sending text payload:", chatMessage);
       stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
       setUserData({ ...userData, message: "" });
     }
   };
 
   const sendPrivateValue = () => {
-    console.log("[sendPrivateValue] Send private clicked. Selected file:", selectedFile);
     if (!stompClient) {
-      console.warn("[sendPrivateValue] Not connected.");
+      console.warn("[sendPrivateValue] stompClient is not connected.");
       return;
     }
-    if (selectedFile) {
-      const formData = new FormData();
-      formData.append("file", selectedFile);
-      formData.append("userId", 1);
-      axios.post("https://localhost:8443/api/files/upload", formData)
-      .then((response) => {
-        const publicUrl = response.data;
-        console.log("[sendPrivateValue] File uploaded. Public URL:", publicUrl);
-        const msgText = userData.message.trim() === "" ? "File Sent" : userData.message;
+    console.log("[sendPrivateValue] Attempting to send a private message to:", tab);
+    let file = selectedFile || (fileInputRef.current && fileInputRef.current.files[0]);
+    if (file) {
+      console.log("[sendPrivateValue] Found a file to send:", file.name);
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.result) {
+          console.log("[sendPrivateValue] FileReader onload triggered. Data URL length:", reader.result.length);
+        } else {
+          console.warn("[sendPrivateValue] FileReader onload triggered but reader.result is undefined.");
+        }
         const chatMessage = {
           senderName: userData.username,
           receiverName: tab,
-          message: msgText,
-          fileName: selectedFile.name,
-          fileData: publicUrl,
+          message: userData.message.trim() === "" ? "File Sent" : userData.message,
+          fileName: file.name,
+          fileData: reader.result || "",
           status: "MESSAGE"
         };
         if (userData.username !== tab) {
           privateChats.get(tab).push(chatMessage);
           setPrivateChats(new Map(privateChats));
         }
-        console.log("[sendPrivateValue] Sending payload:", chatMessage);
+        console.log("[sendPrivateValue] Final chatMessage to send (private):", chatMessage);
         stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
         setUserData({ ...userData, message: "" });
         setSelectedFile(null);
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
-      })
-      .catch((err) => {
-        console.error("[sendPrivateValue] Error uploading file:", err);
-      });
+      };
+      reader.onerror = (err) => {
+        console.error("[sendPrivateValue] FileReader error:", err);
+      };
+      reader.readAsDataURL(file);
     } else {
+      console.log("[sendPrivateValue] No file found, sending text only.");
       const chatMessage = {
         senderName: userData.username,
         receiverName: tab,
@@ -547,7 +547,6 @@ const ChatRoom = () => {
         privateChats.get(tab).push(chatMessage);
         setPrivateChats(new Map(privateChats));
       }
-      console.log("[sendPrivateValue] Sending private text payload:", chatMessage);
       stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
       setUserData({ ...userData, message: "" });
     }
@@ -564,19 +563,12 @@ const ChatRoom = () => {
 
   return (
     <div className="container">
-      {/* TOP-RIGHT MENU */}
       <div className="menu-container">
-        <button className="menu-toggle" onClick={toggleMenu} aria-label="Menu">
-          ☰
-        </button>
+        <button className="menu-toggle" onClick={toggleMenu} aria-label="Menu">☰</button>
         <nav className={`menu ${isMenuOpen ? "open" : ""}`}>
           <ul>
-            <li>
-              <Link to="/home" onClick={() => setIsMenuOpen(false)}>Home</Link>
-            </li>
-            <li>
-              <Link to="/file_storage" onClick={() => setIsMenuOpen(false)}>File Storage</Link>
-            </li>
+            <li><Link to="/home" onClick={() => setIsMenuOpen(false)}>Home</Link></li>
+            <li><Link to="/file_storage" onClick={() => setIsMenuOpen(false)}>File Storage</Link></li>
           </ul>
         </nav>
       </div>
@@ -584,11 +576,9 @@ const ChatRoom = () => {
         <div className="chat-box">
           <div className="member-list">
             <ul>
-              <li onClick={() => setTab("CHATROOM")} className={`member ${tab === "CHATROOM" && "active"}`}>
-                Chatroom
-              </li>
+              <li onClick={() => setTab("CHATROOM")} className={tab === "CHATROOM" ? "member active" : "member"}>Chatroom</li>
               {[...privateChats.keys()].map((name, index) => (
-                <li key={index} onClick={() => setTab(name)} className={`member ${tab === name && "active"}`}>
+                <li key={index} onClick={() => setTab(name)} className={tab === name ? "member active" : "member"}>
                   {name}
                 </li>
               ))}
@@ -600,23 +590,9 @@ const ChatRoom = () => {
                 {publicChats.map((chat, index) => renderMessage(chat, index))}
               </ul>
               <div className="send-message">
-                <input
-                  type="text"
-                  className="input-message"
-                  placeholder="Enter the message"
-                  value={userData.message}
-                  onChange={handleMessage}
-                  maxLength="500"
-                />
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  className="file-upload-input"
-                  onChange={handleFileUpload}
-                />
-                <button type="button" className="send-button" onClick={sendValue}>
-                  Send
-                </button>
+                <input type="text" className="input-message" placeholder="Enter the message" value={userData.message} onChange={handleMessage} maxLength="500" />
+                <input ref={fileInputRef} type="file" className="file-upload-input" onChange={handleFileUpload} />
+                <button type="button" className="send-button" onClick={sendValue}>Send</button>
               </div>
             </div>
           ) : (
@@ -625,36 +601,16 @@ const ChatRoom = () => {
                 {[...privateChats.get(tab)].map((chat, index) => renderMessage(chat, index))}
               </ul>
               <div className="send-message">
-                <input
-                  type="text"
-                  className="input-message"
-                  placeholder="Enter the message"
-                  value={userData.message}
-                  onChange={handleMessage}
-                  maxLength="500"
-                />
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  className="file-upload-input"
-                  onChange={handleFileUpload}
-                />
-                <button type="button" className="send-button" onClick={sendPrivateValue}>
-                  Send
-                </button>
+                <input type="text" className="input-message" placeholder="Enter the message" value={userData.message} onChange={handleMessage} maxLength="500" />
+                <input ref={fileInputRef} type="file" className="file-upload-input" onChange={handleFileUpload} />
+                <button type="button" className="send-button" onClick={sendPrivateValue}>Send</button>
               </div>
             </div>
           )}
         </div>
       ) : (
         <div className="register">
-          <input
-            id="user-name"
-            placeholder="Enter your name"
-            name="userName"
-            value={userData.username}
-            onChange={handleUsername}
-          />
+          <input id="user-name" placeholder="Enter your name" name="userName" value={userData.username} onChange={handleUsername} />
           <button type="button" onClick={registerUser}>Connect</button>
         </div>
       )}
@@ -663,3 +619,4 @@ const ChatRoom = () => {
 };
 
 export default ChatRoom;
+

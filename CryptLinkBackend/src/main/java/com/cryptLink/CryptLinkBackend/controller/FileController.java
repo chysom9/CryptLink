@@ -41,14 +41,15 @@ public class FileController {
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("userId") Integer userId,
-                                               @RequestParam("file") MultipartFile file) {
+                                               @RequestParam("file") MultipartFile file,
+                                               @RequestParam(value="forChat", required=false, defaultValue="false") Boolean forChat) {
         try {
             logger.debug("Received upload request for user ID: {}", userId);
             String originalFileName = file.getOriginalFilename();
             logger.debug("Original file name: {}", originalFileName);
             logger.debug("File size: {} bytes", file.getSize());
 
-            // Encode the file name to handle spaces and special characters.
+            // Encode file name to handle spaces and special characters.
             String encodedFileName = URLEncoder.encode(originalFileName, StandardCharsets.UTF_8.toString());
             String supabasePath = "user_" + userId + "/" + encodedFileName;
 
@@ -58,16 +59,17 @@ public class FileController {
                 publicUrl = "https://example.com/dummy.txt";
             }
 
-            // Save metadata (store original file name for display)
-            FileMetadata meta = new FileMetadata();
-            meta.setOwnerId(userId);
-            meta.setFileName(originalFileName);
-            meta.setSupabasePath(publicUrl);
-            meta.setCompressed(false);
-            meta.setEncrypted(false);
-
-            fileRepo.save(meta);
-            // Return the public URL so that the front end can display a clickable download link.
+            // Only save file metadata if this is not a chat upload.
+            if (!forChat) {
+                FileMetadata meta = new FileMetadata();
+                meta.setOwnerId(userId);
+                meta.setFileName(originalFileName);
+                meta.setSupabasePath(publicUrl);
+                meta.setCompressed(false);
+                meta.setEncrypted(false);
+                fileRepo.save(meta);
+            }
+            // Return the public URL so that the chat room can display a clickable link.
             return ResponseEntity.ok(publicUrl);
         } catch (IllegalStateException e) {
             logger.error("File upload failed: {}", e.getMessage());

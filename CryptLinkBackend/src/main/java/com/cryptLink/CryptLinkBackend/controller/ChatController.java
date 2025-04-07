@@ -1,13 +1,13 @@
 package com.cryptLink.CryptLinkBackend.controller;
 
-import com.cryptLink.CryptLinkBackend.model.Message;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;  // Ensure ChatMessage has fileData, fileName, etc.
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+
+import com.cryptLink.CryptLinkBackend.model.ChatMessage;
 
 @Controller
 public class ChatController {
@@ -17,13 +17,14 @@ public class ChatController {
 
     @MessageMapping("/message")
     @SendTo("/chatroom/public")
-    public Message receiveMessage(@Payload Message message){
+    public ChatMessage receiveMessage(@Payload ChatMessage message) {
+        // Simply return the incoming message, including fileData if present.
         return message;
     }
 
     @MessageMapping("/private-message")
-    public Message recMessage(@Payload Message message){
-        simpMessagingTemplate.convertAndSendToUser(message.getReceiverName(),"/private",message);
+    public ChatMessage receivePrivateMessage(@Payload ChatMessage message) {
+        simpMessagingTemplate.convertAndSendToUser(message.getReceiverName(), "/private", message);
         System.out.println(message.toString());
         return message;
     }

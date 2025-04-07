@@ -209,3 +209,19 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+/* Additional rules for chat message layout */
+.chat-message {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.chat-message.other {
+  justify-content: flex-start;
+}
+.chat-message.self {
+  justify-content: flex-end;
+}
+.avatar {
+  margin: 0 0.5rem;
+}
