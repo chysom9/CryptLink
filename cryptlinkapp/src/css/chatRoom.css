@@ -204,3 +204,8 @@
   font-size: 0.95rem;
   color: #fff;
 }
+.message-bubble a {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}

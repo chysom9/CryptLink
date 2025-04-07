@@ -394,7 +394,7 @@ const ChatRoom = () => {
     setUserData({ ...userData, message: event.target.value });
   };
 
-  // File upload handler with logging and size check.
+  // File upload handler with logging
   const handleFileUpload = (event) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -423,12 +423,13 @@ const ChatRoom = () => {
     );
   };
 
-  // Render chat bubble: always render the message text, and if fileData exists, show the link below.
+  // Render chat bubble:
+  // If fileData exists, ignore the message text and show only the download link.
+  // Otherwise, display the text message.
   const renderBubble = (chat) => {
     return (
       <div className={`message-bubble ${chat.senderName === userData.username ? "sent" : ""}`}>
-        <div>{chat.message}</div>
-        {chat.fileData && renderFile(chat)}
+        {chat.fileData ? renderFile(chat) : <div>{chat.message}</div>}
       </div>
     );
   };
@@ -450,7 +451,7 @@ const ChatRoom = () => {
     );
   };
 
-  // sendValue uploads the file to the backend, receives a public URL, then sends a chat message with that URL.
+  // Upload the file and send a chat message with the public URL.
   const sendValue = () => {
     console.log("[sendValue] Send clicked. Selected file:", selectedFile);
     if (!stompClient) {
@@ -460,13 +461,12 @@ const ChatRoom = () => {
     if (selectedFile) {
       const formData = new FormData();
       formData.append("file", selectedFile);
-      formData.append("userId", 1); // Adjust userId as needed.
+      formData.append("userId", 1);
       
       axios.post("https://localhost:8443/api/files/upload", formData)
       .then((response) => {
-        const publicUrl = response.data; // Should be a public URL string.
+        const publicUrl = response.data; // Expect public URL string
         console.log("[sendValue] File uploaded. Public URL:", publicUrl);
-        // If no text was provided, default message to "File Sent".
         const msgText = userData.message.trim() === "" ? "File Sent" : userData.message;
         const chatMessage = {
           senderName: userData.username,
