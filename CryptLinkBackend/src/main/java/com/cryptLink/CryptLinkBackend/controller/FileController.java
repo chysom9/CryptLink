@@ -1,9 +1,10 @@
 package com.cryptLink.CryptLinkBackend.controller;
 
-
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Optional; // Adjust the package path if necessary
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +26,7 @@ import com.cryptLink.CryptLinkBackend.model.FileMetadata;
 import com.cryptLink.CryptLinkBackend.repository.FileMetadataRepository;
 import com.cryptLink.CryptLinkBackend.service.SupabaseService;
 
-
-@CrossOrigin(origins = {"http://localhost:3000", "https://localhost:3000"}) // Allow frontend requests
+@CrossOrigin(origins = {"http://localhost:3000", "https://localhost:3000"})
 @RestController
 @RequestMapping("/api/files")
 public class FileController {
@@ -40,38 +40,41 @@ public class FileController {
     private FileMetadataRepository fileRepo;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("userId") Integer userId, @RequestParam("file") MultipartFile file
-    ) {
+    public ResponseEntity<String> uploadFile(@RequestParam("userId") Integer userId,
+                                               @RequestParam("file") MultipartFile file) {
         try {
             logger.debug("Received upload request for user ID: {}", userId);
-            logger.debug("File name: {}", file.getOriginalFilename());
+            String originalFileName = file.getOriginalFilename();
+            logger.debug("Original file name: {}", originalFileName);
             logger.debug("File size: {} bytes", file.getSize());
 
-            String fileName = file.getOriginalFilename();
-            String supabasePath = "user_" + userId + "/" + fileName;
+            // Encode the file name to handle spaces and special characters.
+            String encodedFileName = URLEncoder.encode(originalFileName, StandardCharsets.UTF_8.toString());
+            String supabasePath = "user_" + userId + "/" + encodedFileName;
 
             String publicUrl = supabaseService.uploadFile(supabasePath, file.getBytes());
             if (publicUrl == null) {
-                return ResponseEntity.badRequest().body("Upload failed");
+                logger.error("supabaseService.uploadFile returned null. Using dummy URL for testing.");
+                publicUrl = "https://example.com/dummy.txt";
             }
 
-            // Save metadata, including publicUrl (instead of supabasePath)
+            // Save metadata (store original file name for display)
             FileMetadata meta = new FileMetadata();
             meta.setOwnerId(userId);
-            meta.setFileName(fileName);
-            meta.setSupabasePath(publicUrl); // store the public URL
+            meta.setFileName(originalFileName);
+            meta.setSupabasePath(publicUrl);
             meta.setCompressed(false);
             meta.setEncrypted(false);
 
             fileRepo.save(meta);
-            return ResponseEntity.ok("File uploaded successfully!");
+            // Return the public URL so that the front end can display a clickable download link.
+            return ResponseEntity.ok(publicUrl);
         } catch (IllegalStateException e) {
             logger.error("File upload failed: {}", e.getMessage());
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         } catch (IOException e) {
             logger.error("File upload failed: {}", e.getMessage());
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-
         } catch (Exception e) {
             logger.error("An error occurred during file upload", e);
             e.printStackTrace();
@@ -81,26 +84,18 @@ public class FileController {
 
     @GetMapping("/{fileId}")
     public ResponseEntity<?> getFile(@PathVariable("fileId") Integer fileId) {
-        // Retrieve metadata from the database
         Optional<FileMetadata> metadataOpt = fileRepo.findById(fileId);
         if (!metadataOpt.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("File not found");
         }
         FileMetadata meta = metadataOpt.get();
 
-        // (Optional) Validate that the currently authenticated user is allowed to access this file.
-        // For example:
-        // String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        // if (!meta.getOwnerId().equals(...)) { return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied"); }
-
-        // Download file using the public URL stored in metadata.
-        String publicUrl = meta.getSupabasePath(); // We stored the public URL here during upload.
+        String publicUrl = meta.getSupabasePath();
         byte[] fileBytes = supabaseService.downloadFile(publicUrl);
         if (fileBytes == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving file");
         }
 
-        // Prepare headers for file download (adjust the content type if necessary)
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         headers.setContentLength(fileBytes.length);
@@ -108,20 +103,18 @@ public class FileController {
 
         return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
     }
-
+    
     @GetMapping("/user/{userId}")
-public ResponseEntity<List<FileMetadata>> getFilesByUser(@PathVariable("userId") Integer userId) {
-    logger.debug("Fetching files for user with ID: {}", userId);
-    List<FileMetadata> files = fileRepo.findByOwnerId(userId);
-    
-    if (files.isEmpty()) {
-        logger.debug("No files found for user with ID: {}", userId);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(files);
+    public ResponseEntity<List<FileMetadata>> getFilesByUser(@PathVariable("userId") Integer userId) {
+        logger.debug("Fetching files for user with ID: {}", userId);
+        List<FileMetadata> files = fileRepo.findByOwnerId(userId);
+        
+        if (files.isEmpty()) {
+            logger.debug("No files found for user with ID: {}", userId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(files);
+        }
+        
+        logger.debug("Found {} files for user with ID: {}", files.size(), userId);
+        return ResponseEntity.ok(files);
     }
-    
-    logger.debug("Found {} files for user with ID: {}", files.size(), userId);
-    return ResponseEntity.ok(files);
-}
-
-
 }

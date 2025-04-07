@@ -143,17 +143,12 @@
   margin: 0;
 }
 
-/* New: File hyperlink styling within messages */
-.file-link {
+/* File upload container styling */
+.file-upload {
+  display: block;
   margin-top: 0.5rem;
-}
-.file-link a {
+  font-size: 0.9rem;
   color: #5563DE;
-  text-decoration: underline;
-  font-weight: bold;
-}
-.file-link a:hover {
-  color: #4151c9;
 }
 
 /* Chat input area */
