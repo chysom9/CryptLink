@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cryptLink.CryptLinkBackend.model.FileMetadata;
 import com.cryptLink.CryptLinkBackend.repository.FileMetadataRepository;
 import com.cryptLink.CryptLinkBackend.service.SupabaseService;
+
+
+@CrossOrigin(origins = {"http://localhost:3000", "https://localhost:3000"}) // Allow frontend requests
 @RestController
 @RequestMapping("/api/files")
 public class FileController {
@@ -107,11 +111,17 @@ public class FileController {
 
     @GetMapping("/user/{userId}")
 public ResponseEntity<List<FileMetadata>> getFilesByUser(@PathVariable("userId") Integer userId) {
+    logger.debug("Fetching files for user with ID: {}", userId);
     List<FileMetadata> files = fileRepo.findByOwnerId(userId);
+    
     if (files.isEmpty()) {
+        logger.debug("No files found for user with ID: {}", userId);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(files);
     }
+    
+    logger.debug("Found {} files for user with ID: {}", files.size(), userId);
     return ResponseEntity.ok(files);
 }
+
 
 }
