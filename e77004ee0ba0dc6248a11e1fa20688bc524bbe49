@@ -1,0 +1,524 @@
+[33mcommit d77060af315c41f451fa71878a352855db689379[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: chi <cnwosu2@charlotte.edu>
+Date:   Sun Apr 6 18:46:39 2025 -0400
+
+    hey
+
+[33mcommit e77004ee0ba0dc6248a11e1fa20688bc524bbe49[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Wed Apr 2 14:20:12 2025 -0400
+
+    updated styles
+
+[33mcommit 0716f37395c2d03c593d3839afb252715ed74af7[m
+Author: chi <cnwosu2@charlotte.edu>
+Date:   Wed Apr 2 13:58:08 2025 -0400
+
+    IMplemented the massaging function
+
+[33mcommit 19ebcff092e0531d1dbbfa6fb5fcd785a8967de6[m
+Merge: 0ec8cb1 2d5268a
+Author: ZakirShahzad <zakir.shahzad1@gmail.com>
+Date:   Thu Mar 27 16:23:07 2025 -0400
+
+    Merge branch 'main' of https://github.com/chysom9/CryptLink
+
+[33mcommit 0ec8cb111cdfe2e4514a449ffd5b202fda160ba5[m
+Author: ZakirShahzad <zakir.shahzad1@gmail.com>
+Date:   Thu Mar 27 16:22:55 2025 -0400
+
+    small changes
+
+[33mcommit 2d5268a810c83257e8108b2ed12922911a0d88b7[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Mar 27 16:20:20 2025 -0400
+
+    Update messaging.js
+
+[33mcommit 19384e1bf9cf690fdcec6004a6d5e17a0fa5454f[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Mar 27 16:07:13 2025 -0400
+
+    messages updated
+
+[33mcommit 2e30d6cc6420363e07c3ce21cff6407ea83c422b[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Mar 27 15:54:37 2025 -0400
+
+    messaging page working
+
+[33mcommit 02b9c2915c1b7e68099a2da525860330646ce059[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Mar 27 15:44:57 2025 -0400
+
+    updated messaging page
+
+[33mcommit f72c654f7f8c6a9aaf841f5535b926baf2d22752[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Mar 27 15:17:02 2025 -0400
+
+    Update Home.js
+
+[33mcommit 55d82c80f2740202f0d31c78c30af00485e3dbce[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Mar 25 17:35:09 2025 -0400
+
+    menu completed
+
+[33mcommit a10c56e255344b5366153cf4f634974d671d0a32[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Mar 25 17:17:49 2025 -0400
+
+    menu creation
+
+[33mcommit e531c7a826891187d438c929d07c91e4078eaf6b[m
+Merge: dc29965 68afd4f
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Mar 25 16:35:15 2025 -0400
+
+    Merge branch 'main' of https://github.com/chysom9/CryptLink
+
+[33mcommit dc29965325eca23af4779bf3a8db88c9b59b78ef[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Mar 25 16:35:07 2025 -0400
+
+    styles editec
+
+[33mcommit 68afd4fef4bd1b8481d688650f692f36c8ced74a[m
+Merge: 8cd427b 768173e
+Author: chi <cnwosu2@charlotte.edu>
+Date:   Tue Mar 25 16:33:23 2025 -0400
+
+    Merge branch 'main' of https://github.com/chysom9/CryptLink
+
+[33mcommit 8cd427b26bafb2283045427e10ccae6469097943[m
+Author: chi <cnwosu2@charlotte.edu>
+Date:   Tue Mar 25 16:29:16 2025 -0400
+
+    created the messaging functionalitu backend wise
+
+[33mcommit 768173ef139c193b9223332517b5b9718282769d[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Mar 25 16:20:23 2025 -0400
+
+    links updated
+
+[33mcommit cda5e68fc9d2e338a42ea93c30a2e3bfb11ce366[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Mar 25 15:48:18 2025 -0400
+
+    update of routes and registration page
+
+[33mcommit 0da852f60085f2c674b74d25073637eb9a9f2152[m
+Merge: b420145 b84ad59
+Author: ZakirShahzad <zakir.shahzad1@gmail.com>
+Date:   Tue Mar 25 15:34:05 2025 -0400
+
+    Merge branch 'main' of https://github.com/chysom9/CryptLink
+
+[33mcommit b420145e069a3ddd605e71af0ad9675402e47335[m
+Author: ZakirShahzad <zakir.shahzad1@gmail.com>
+Date:   Tue Mar 25 15:34:03 2025 -0400
+
+    dependency
+
+[33mcommit b84ad5992f86bb7676f5cfdbe757b159368c0e16[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Mon Mar 24 20:14:29 2025 -0400
+
+    Update Landing.js
+
+[33mcommit 8299614e2cbc74be094022d6966292f9c839089c[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Mon Mar 24 20:03:48 2025 -0400
+
+    messaging and file storage
+
+[33mcommit 72713d04a9c7c4fdd79cf715894d94f79db6a984[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Sun Mar 2 17:01:18 2025 -0500
+
+    accepted corrected changes
+
+[33mcommit 1e2008a59af3755ee4e47cbbec41e22427b5bb92[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Sun Mar 2 16:56:06 2025 -0500
+
+    spelling errors
+
+[33mcommit 5fa35778a185d4c1bad56da7ddebc52f59480fc9[m
+Merge: ace568a c8e13a1
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Sun Mar 2 16:50:18 2025 -0500
+
+    changes made
+
+[33mcommit c8e13a128783f0001699dc07cefcc945c491e2ee[m
+Author: Mahmood Kidwai <mkidwai9248@gmail.com>
+Date:   Sun Mar 2 15:30:22 2025 -0500
+
+    added dto to handles frontend to backend communication
+
+[33mcommit 3c04179709602ca0a473ff092c1a448ad2153efa[m
+Author: Mahmood Kidwai <mkidwai9248@gmail.com>
+Date:   Sun Mar 2 15:28:53 2025 -0500
+
+    added the post login page and chnaged page naming
+
+[33mcommit 8c8b80b299073ad5dbcb0af01f5df837503bbcd7[m
+Author: Mahmood Kidwai <mkidwai9248@gmail.com>
+Date:   Thu Feb 27 19:42:17 2025 -0500
+
+    connecting frontend and backend
+
+[33mcommit ace568ae506de1237ed28c4a8ad0adcfc894320f[m
+Merge: e9a45de 657207b
+Author: HarshBhadania05 <hubhadania@gmail.com>
+Date:   Thu Feb 27 19:38:48 2025 -0500
+
+    Merge branch 'main' of https://github.com/chysom9/CryptLink
+
+[33mcommit e9a45de2f2affbc88842ccb98753d7c1371dc5fe[m
+Author: HarshBhadania05 <hubhadania@gmail.com>
+Date:   Thu Feb 27 19:02:28 2025 -0500
+
+    adding registration.js
+
+[33mcommit 23c10142334cd97c91cdabfd7834ebaee1cc50ed[m
+Author: HarshBhadania05 <hubhadania@gmail.com>
+Date:   Thu Feb 27 19:00:40 2025 -0500
+
+    adding registration.js
+
+[33mcommit 8ee58080e97d84054a42bc2a373bd0a28d784895[m
+Author: HarshBhadania05 <hubhadania@gmail.com>
+Date:   Thu Feb 27 18:53:53 2025 -0500
+
+    adding registration.js
+
+[33mcommit d0d79441272075263c657d04326fed672e83ff02[m
+Merge: 96f630f 52b3e7f
+Author: HarshBhadania05 <hubhadania@gmail.com>
+Date:   Thu Feb 27 18:27:28 2025 -0500
+
+    Fixing an error
+
+[33mcommit 657207bb8233ecc497674a5d9ba40cac190063cc[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Feb 27 18:19:01 2025 -0500
+
+    axios
+
+[33mcommit 96f630f67d90b30ae42dc367baf29af53441d0f3[m
+Author: HarshBhadania05 <hubhadania@gmail.com>
+Date:   Thu Feb 27 18:10:03 2025 -0500
+
+    Adding the changes on the frontend
+
+[33mcommit 52b3e7fba45a2dc1adc6c6897562b6a50f8021f4[m
+Author: Mahmood Kidwai <mkidwai9248@gmail.com>
+Date:   Thu Feb 27 17:51:03 2025 -0500
+
+    Replaced CryptLinkBackend with the version from neon
+
+[33mcommit 8810d03b5b8f35eb13a3468d17f2e82f760ff2db[m
+Author: Mahmood Kidwai <mkidwai9248@gmail.com>
+Date:   Thu Feb 27 17:47:53 2025 -0500
+
+    Removed old CryptLinkBackend
+
+[33mcommit e6fe42f067cf692718882d589fa54cebcda3ae6f[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Feb 27 15:29:02 2025 -0500
+
+    chat comments gone
+
+[33mcommit fc460b52bf042070072ac4ef284ab87252bdb427[m
+Author: HarshBhadania05 <hubhadania@gmail.com>
+Date:   Wed Feb 26 12:43:57 2025 -0500
+
+    Tested backend with APIs working
+
+[33mcommit 248d41e29292f05501415ae879333a31e80f91a0[m
+Author: chi <cnwosu2@charlotte.edu>
+Date:   Tue Feb 25 23:50:08 2025 -0500
+
+    Major edits to Usercontroller.java and UserServic.java
+
+[33mcommit 567407eb564d366335453b168dd7f4533e907c07[m
+Merge: 067f95e 10dc70b
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Feb 25 18:42:12 2025 -0500
+
+    Merge branch 'main' of https://github.com/chysom9/CryptLink
+
+[33mcommit 067f95e17ae9d398e11f1d32ed387c5b510a5214[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Feb 25 18:42:03 2025 -0500
+
+    file pathing and warnings cleared
+
+[33mcommit 10dc70b2431c2f05fdcd9de7344fd2496460db81[m
+Author: HarshBhadania05 <hubhadania@gmail.com>
+Date:   Tue Feb 25 18:33:23 2025 -0500
+
+    Backend connected to local database and ready for API creation
+
+[33mcommit 3f51e016cea5ad29999fca0417412e094f5de8ec[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Feb 25 18:19:38 2025 -0500
+
+    last name added
+
+[33mcommit 9bcde09c2d43ecc7975898e6b90b93f90084a6db[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Feb 25 18:11:42 2025 -0500
+
+    size change
+
+[33mcommit e2ad8d2a2d7e5bec963cec0d928df1d9468f84d1[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Feb 25 18:10:59 2025 -0500
+
+    background changed to match home
+
+[33mcommit b0a8b62abb0596272e3b51b8484b4ba4b5c18418[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Feb 25 18:08:22 2025 -0500
+
+    logo to home
+
+[33mcommit 392198b000e9a087e09ff18d9cdddd3f928314e7[m
+Author: ZakirShahzad <zakir.shahzad1@gmail.com>
+Date:   Tue Feb 25 18:03:02 2025 -0500
+
+    Home page created
+
+[33mcommit 7794f959e665fb8eaabc749ae51b7740f3868b97[m
+Merge: b33ff2d 41c0179
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Feb 25 17:33:53 2025 -0500
+
+    Merge branch 'main' of https://github.com/chysom9/CryptLink
+
+[33mcommit b33ff2d0aafc25631cd48310f8b48c97ea134a73[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Feb 25 17:33:44 2025 -0500
+
+    logo functionality completed
+
+[33mcommit 41c0179f8ca369151ec7538d05d9da0a070b9aeb[m
+Merge: dd734e0 80eb099
+Author: Mahmood Kidwai <mkidwai9248@gmail.com>
+Date:   Tue Feb 25 17:27:30 2025 -0500
+
+    Merge branch 'main' of https://github.com/chysom9/CryptLink
+
+[33mcommit dd734e00236293c874d99497041b33bd39d8c997[m
+Author: Mahmood Kidwai <mkidwai9248@gmail.com>
+Date:   Tue Feb 25 17:26:55 2025 -0500
+
+    pom.xml chnages and added User.java
+
+[33mcommit 80eb099f4e37c2eb40eefb1f2daf4f05f32029b8[m
+Merge: e766a30 14bed2f
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Feb 25 17:12:55 2025 -0500
+
+    Merge branch 'main' of https://github.com/chysom9/CryptLink
+
+[33mcommit e766a30d16153bec75271464e1671f832657013d[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Feb 25 17:12:48 2025 -0500
+
+    created a logo
+
+[33mcommit 14bed2f9cafff02e40238e68ec6fa01284010180[m
+Author: HarshBhadania05 <hubhadania@gmail.com>
+Date:   Tue Feb 25 17:11:09 2025 -0500
+
+    adding backend
+
+[33mcommit d4e7e441c5fd40ed75a9fefcb1d24d1216219f4b[m
+Author: HarshBhadania05 <hubhadania@gmail.com>
+Date:   Tue Feb 25 17:09:36 2025 -0500
+
+    Deleting Backend
+
+[33mcommit 3b9d05330a880bcc36fba30efdb4c42cba6b2006[m
+Author: HarshBhadania05 <hubhadania@gmail.com>
+Date:   Tue Feb 25 17:02:53 2025 -0500
+
+    Added the backend with java 17 version
+
+[33mcommit ebcdfa4c076bd4858faf82fd4273e42342734eda[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Feb 25 16:57:03 2025 -0500
+
+    updated semanitcs
+
+[33mcommit 822540393503fd2d38d51a841b683cfb2202359c[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Tue Feb 25 16:38:20 2025 -0500
+
+    linking login and registration
+
+[33mcommit 8a82237e4a406482b83172c9f8c0aef66281e1c0[m
+Author: Mahmood Kidwai <mkidwai9248@gmail.com>
+Date:   Mon Feb 24 16:53:16 2025 -0500
+
+    User.java added
+
+[33mcommit 7611c8dd0ff7c7d0b349a9ae0f19776e8253da91[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Feb 20 16:59:14 2025 -0500
+
+    made a CRYPTLINK header
+
+[33mcommit d5103aa6cb055ebe0a9b3f0941856ae8f90e51c5[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Feb 20 16:55:58 2025 -0500
+
+    edit of screen width
+
+[33mcommit 14e48794add46be72cfab61198f7c2d42c07afc3[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Feb 20 16:53:39 2025 -0500
+
+    edit of screen width
+
+[33mcommit 119ea74ce6127d3e9c73b52f4e0f3ec95353db3e[m
+Author: ZakirShahzad <zakir.shahzad1@gmail.com>
+Date:   Thu Feb 20 16:46:04 2025 -0500
+
+    registration
+
+[33mcommit ee5d7e669ef5d2d15272f47e023b9454bd77148d[m
+Author: Mahmood Kidwai <mkidwai9248@gmail.com>
+Date:   Thu Feb 20 16:40:29 2025 -0500
+
+    adding springboot backend
+
+[33mcommit 97106992067c3d5ce6e24da019c5991184e7c36c[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Feb 20 16:34:42 2025 -0500
+
+    Update App.js
+
+[33mcommit 60a0f07a00427c2d2c185c960f2d4b0959e5733d[m
+Merge: 68fdd49 0931e65
+Author: Mahmood Kidwai <mkidwai9248@gmail.com>
+Date:   Thu Feb 20 16:32:54 2025 -0500
+
+    Merge branch 'main' of https://github.com/chysom9/CryptLink
+
+[33mcommit 68fdd49319b72fd2e757465e9be34f0ea4919080[m
+Author: Mahmood Kidwai <mkidwai9248@gmail.com>
+Date:   Thu Feb 20 16:31:54 2025 -0500
+
+    mahmood
+
+[33mcommit 0931e6531fc6cf59bd4eb934cf411bc972895e52[m
+Merge: 8765656 bcb9e79
+Author: ZakirShahzad <zakir.shahzad1@gmail.com>
+Date:   Thu Feb 20 16:30:49 2025 -0500
+
+    Merge branch 'main' of https://github.com/chysom9/CryptLink
+
+[33mcommit 87656567b18aa464d3d6e50be1e7edf28dabc90b[m
+Author: ZakirShahzad <zakir.shahzad1@gmail.com>
+Date:   Thu Feb 20 16:30:38 2025 -0500
+
+    login.js + login.css
+
+[33mcommit bcb9e79fc1568a730fa8237f705e628478f7bd6b[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Feb 20 16:29:44 2025 -0500
+
+    Update login.js
+
+[33mcommit 3a211f1db4de12953712f07c5468646ac07f9808[m
+Merge: 92d5fe1 873c22e
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Feb 20 16:29:09 2025 -0500
+
+    Merge branch 'main' of https://github.com/chysom9/CryptLink
+
+[33mcommit 92d5fe177af901132171d0ad9f7123b2403f1525[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Feb 20 16:28:58 2025 -0500
+
+    login.css created
+
+[33mcommit 873c22e5c75fff97c6f01afcc8b7018920cfc0b7[m
+Author: ZakirShahzad <zakir.shahzad1@gmail.com>
+Date:   Thu Feb 20 16:27:04 2025 -0500
+
+    Update login.js
+
+[33mcommit 3996a8c7ee4738095edbd363fa040ad44df6eca2[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Feb 20 16:25:51 2025 -0500
+
+    creation of log in page
+
+[33mcommit 90b230fa83964610850b7c38efeddfe5d13a2bf9[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Feb 20 16:15:41 2025 -0500
+
+    Update README.md
+
+[33mcommit d257b02cb956d232c614a4592a7f81baed67a38a[m
+Merge: 985a743 423cf5b
+Author: HarshBhadania05 <hubhadania@gmail.com>
+Date:   Thu Feb 20 16:11:56 2025 -0500
+
+    Added to Read me
+
+[33mcommit 985a743339b4d6b086eaeec15978ab0df1b98845[m
+Author: HarshBhadania05 <hubhadania@gmail.com>
+Date:   Thu Feb 20 16:09:05 2025 -0500
+
+    Added to Read me
+
+[33mcommit 423cf5b05300f18d3ae0ec7c936bcdac1264ed0b[m
+Author: ZakirShahzad <zakir.shahzad1@gmail.com>
+Date:   Thu Feb 20 16:07:38 2025 -0500
+
+    zakir here
+
+[33mcommit 4b91a3fee77a644548f008e74eb12df431080087[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Chi <kingsleyn697@gmail.com>
+Date:   Thu Feb 20 16:03:43 2025 -0500
+
+    made a change towards the read me
+
+[33mcommit d0a9e771db03be3e00af657ce63c4d9dee15d721[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Feb 20 15:57:59 2025 -0500
+
+    Update README.md
+
+[33mcommit 6ecd8f09879cffc52ad858a947fa6e2389b2ad92[m
+Author: HarshBhadania05 <hubhadania@gmail.com>
+Date:   Thu Feb 20 15:05:18 2025 -0500
+
+     Added React app
+
+[33mcommit cbf200e232c8f4192a514e7ef266fafcb6888e14[m
+Author: kspark12 <kspark12@uncc.edu>
+Date:   Thu Feb 20 14:56:26 2025 -0500
+
+    Update README.md
+
+[33mcommit 10d83f713e4f2883021e83cd7b613c076400d240[m
+Author: chysom9 <94130590+chysom9@users.noreply.github.com>
+Date:   Thu Feb 13 15:17:32 2025 -0500
+
+    Updated README.md
+
+[33mcommit 9ef449a9749ba228024902648c08c79f8a568ef6[m
+Author: chysom9 <94130590+chysom9@users.noreply.github.com>
+Date:   Thu Feb 13 15:13:44 2025 -0500
+
+    Initial commit

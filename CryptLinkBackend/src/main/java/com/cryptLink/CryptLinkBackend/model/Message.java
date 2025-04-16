@@ -2,7 +2,6 @@ package com.cryptLink.CryptLinkBackend.model;
 
 import lombok.*;
 
-import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
