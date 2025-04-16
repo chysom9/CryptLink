@@ -4,7 +4,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64; // Adjust the package path if necessary
 import java.util.List;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.cryptLink.CryptLinkBackend.model.FileMetadata;
 import com.cryptLink.CryptLinkBackend.repository.FileMetadataRepository;
@@ -101,46 +101,45 @@ public class FileController {
     
 
     @GetMapping("/{fileId}")
-    public ResponseEntity<?> getFile(@PathVariable Integer fileId) {
-        // 1) Fetch metadata
-        Optional<FileMetadata> metadataOpt = fileRepo.findById(fileId);
-        if (!metadataOpt.isPresent()) {
-            return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body("File not found");
-        }
-        FileMetadata meta = metadataOpt.get();
-    
-        // 2) Download the encrypted blob from Supabase
-        byte[] encryptedBytes = supabaseService.downloadFile(meta.getSupabasePath());
-        if (encryptedBytes == null) {
-            return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error retrieving file");
-        }
-    
+public ResponseEntity<?> getFile(@PathVariable Integer fileId) {
+    FileMetadata meta = fileRepo.findById(fileId)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "File not found"));
+
+    byte[] fileBytes = supabaseService.downloadFile(meta.getSupabasePath());
+    if (fileBytes == null) {
+        return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body("Error retrieving file");
+    }
+
+    byte[] outputBytes;
+    if (meta.isEncrypted()) {
+        // decrypt path
+        byte[] iv = Base64.getDecoder().decode(meta.getIv());
         try {
-            // 3) Decode the IV and decrypt
-            byte[] iv = Base64.getDecoder().decode(meta.getIv());
-            byte[] decryptedBytes = encryptionUtil.decrypt(encryptedBytes, iv);
-    
-            // 4) Build download headers
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentLength(decryptedBytes.length);
-            headers.set("Content-Disposition",
-                "attachment; filename=\"" + meta.getFileName() + "\"");
-    
-            // 5) Return the decrypted file
-            return new ResponseEntity<>(decryptedBytes, headers, HttpStatus.OK);
-    
+            outputBytes = encryptionUtil.decrypt(fileBytes, iv);
         } catch (Exception e) {
-            logger.error("Error during file decryption/download", e);
+            logger.error("Decryption failed", e);
             return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Error decrypting file");
         }
+    } else {
+        // chat‑only path
+        outputBytes = fileBytes;
     }
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+    headers.setContentLength(outputBytes.length);
+    headers.set(
+        "Content-Disposition",
+        "attachment; filename=\"" + meta.getFileName() + "\""
+    );
+
+    return new ResponseEntity<>(outputBytes, headers, HttpStatus.OK);
+}
+
     
 
 
