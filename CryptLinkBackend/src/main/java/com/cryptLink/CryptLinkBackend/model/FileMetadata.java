@@ -21,6 +21,7 @@ public class FileMetadata {
     final private LocalDateTime uploadTime;
     private boolean compressed;
     private boolean encrypted;
+    private String iv; // New field to store the IV
 
     public FileMetadata() {
         this.uploadTime = LocalDateTime.now(); // Optional: Set upload time here if you want
@@ -88,6 +89,12 @@ public class FileMetadata {
         this.encrypted = encrypted;
     }
 
-
+    public String getIv() {
+        return iv;
+    }
+    
+    public void setIv(String iv) {
+        this.iv = iv;
+    }
 
 }

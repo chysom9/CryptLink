@@ -39,15 +39,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         String token = authHeader.substring(7);
-        String username = jwtUtil.extractEmail(token);
+        String email = jwtUtil.extractEmail(token);
 
-        jwtAuthFilterLogger.debug("Extracted username from token: {}", username);
-        if (username != null && jwtUtil.validateToken(token)) {
+        jwtAuthFilterLogger.debug("Extracted username from token: {}", email);
+        if (email != null && jwtUtil.validateToken(token)) {
             UsernamePasswordAuthenticationToken authToken =
-                new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList());
+                new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authToken);
-            jwtAuthFilterLogger.debug("Authentication set for user: {}", username);
+            jwtAuthFilterLogger.debug("Authentication set for user: {}", email);
         } else {
             jwtAuthFilterLogger.warn("JWT token is invalid or expired");
         }
