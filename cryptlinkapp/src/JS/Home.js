@@ -10,7 +10,7 @@ function Home() {
 
   // ✅ Redirect to login if user is not authenticated
   useEffect(() => {
-    const token = localStorage.getItem("userToken");
+    const token = localStorage.getItem("token");
     console.log("Token in Home:", token);
     
     if (!token) {
@@ -21,7 +21,8 @@ function Home() {
   
 
   const handleLogout = () => {
-    localStorage.removeItem("userToken");
+    localStorage.removeItem("token");
+localStorage.removeItem("userId");
     navigate("/landing");
   };
 

@@ -1,5 +1,7 @@
 package com.cryptLink.CryptLinkBackend.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -62,17 +64,26 @@ public class UserController {
 
     // Login User API with Debug Logs
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody UserLoginDto loginDto) {
+    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody UserLoginDto loginDto) {
         logger.info("Login attempt for user: {}", loginDto.getEmail());
         
         try {
             String token = userService.authenticateUser(loginDto.getEmail(), loginDto.getPassword());
             logger.info("Login successful for user: {}", loginDto.getEmail());
-            return ResponseEntity.ok(token);
+            User user = userService.getUserByEmail(loginDto.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));
+            Integer userId = user.getId();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", token);
+            response.put("userId", userId);
+
+
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             logger.warn("Invalid login attempt for user: {}", loginDto.getEmail());
-            String response = "{\"error\": \"Invalid credentials\"}";
-            return ResponseEntity.status(401).body(response);
+            Map<String, Object> error = new HashMap<>();
+            error.put("error", "Invalid credentials");
+            return ResponseEntity.status(401).body(error);
         }
     }
 

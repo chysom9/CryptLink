@@ -6,7 +6,7 @@ import axios from "axios";
 
 function EncryptedFiles() {
   // For demonstration, we use a hard-coded userId.
-  const userId = 1;
+  const userId = localStorage.getItem("userId"); // Replace with actual userId retrieval logic
   
   const [selectedFile, setSelectedFile] = useState(null);
   const [status, setStatus] = useState("");

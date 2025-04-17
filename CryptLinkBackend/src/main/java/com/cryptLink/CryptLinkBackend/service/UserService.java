@@ -40,6 +40,11 @@ public class UserService {
         return userRepository.findById(id);
 
     }
+
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+
+    }
     // method to check if passwords match and if they do return true to let person login
     public String authenticateUser(String email, String password) {
         Optional<User> userOptional = userRepository.findByEmail(email);

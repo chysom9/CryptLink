@@ -33,6 +33,10 @@ function Login() {
       );
     
       console.log("Login successful:", response.data);
+
+    localStorage.setItem("token", response.data.token);
+    localStorage.setItem("userId", response.data.userId);
+
       alert("Login successful");
       setEmail('');
       setPassword('');
