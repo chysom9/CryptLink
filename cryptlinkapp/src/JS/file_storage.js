@@ -7,6 +7,9 @@ import axios from "axios";
 function EncryptedFiles() {
   // For demonstration, we use a hard-coded userId.
   const userId = localStorage.getItem("userId"); // Replace with actual userId retrieval logic
+  const token = localStorage.getItem("token"); // Retrieve the token from local storage
+  console.log("User ID:", userId);
+  console.log("Token:", token);
   
   const [selectedFile, setSelectedFile] = useState(null);
   const [status, setStatus] = useState("");
@@ -40,7 +43,10 @@ function EncryptedFiles() {
 
     try {
       await axios.post("https://localhost:8443/api/files/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}` // Include the token in the request headers
+         },
+        
       });
       setStatus("File uploaded successfully!");
       fetchFiles(); // Refresh the list after a successful upload.
@@ -56,7 +62,12 @@ function EncryptedFiles() {
   const fetchFiles = async () => {
     try {
       const response = await axios.get(
-        `https://localhost:8443/api/files/user/${userId}`
+        `https://localhost:8443/api/files/user/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
       );
       setStoredFiles(response.data);
     } catch (error) {

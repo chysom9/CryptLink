@@ -34,8 +34,15 @@ function Login() {
     
       console.log("Login successful:", response.data);
 
-    localStorage.setItem("token", response.data.token);
-    localStorage.setItem("userId", response.data.userId);
+      const { token, userId } = response.data;
+      // Persist for later API calls
+      console.log(response.data.token)
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", userId);
+      console.log("User ID:", userId);
+      console.log("token:", token);
+      // Attach token to all future requests
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       alert("Login successful");
       setEmail('');

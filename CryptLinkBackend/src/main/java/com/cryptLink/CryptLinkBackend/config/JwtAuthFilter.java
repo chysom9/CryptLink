@@ -30,6 +30,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
                                     throws ServletException, IOException {
+        try{
         jwtAuthFilterLogger.debug("Processing request: {}", request.getRequestURI());
         
         final String authHeader = request.getHeader("Authorization");
@@ -54,5 +55,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            jwtAuthFilterLogger.error("Error processing JWT token: {}", e.getMessage());
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+        }
+        finally {
+            jwtAuthFilterLogger.debug("Request processing completed for: {}", request.getRequestURI());
+        }
     }
 }
