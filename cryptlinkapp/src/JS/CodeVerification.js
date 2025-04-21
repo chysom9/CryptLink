@@ -22,7 +22,9 @@ function CodeVerification() {
       const response = await axios.post(
         "https://localhost:8443/api/auth/verify-otp",
         {email, code},
-        { headers: { "Content-Type": "application/json" } }
+        { headers: { "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+         } }
       );
       console.log("Verification response:", response.data);
       if (response.data == "Authentication successful!") {

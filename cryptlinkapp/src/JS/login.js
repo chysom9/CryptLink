@@ -29,7 +29,9 @@ function Login() {
     try {
       const response = await axios.post("https://localhost:8443/api/users/login", 
         { email, password }, 
-        { headers: { "Content-Type": "application/json" } }
+        { headers: { "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+         } }
       );
     
       console.log("Login successful:", response.data);
