@@ -10,9 +10,9 @@ import zakirImg from "../assets/zakir.jpg";
 function AboutUs() {
   const developers = [
     {
-      name: "Kyle Marshall Sparks II",
+      name: "Kyle Marshall Sparks II (KJ)",
       role: "Front End Developer",
-      description: "Kyle brings our interface to life with smooth, intuitive design and attention to detail.",
+      description: "KJ provided CryptLink with its sleek and user-friendly interface. With a design like no other, our app is presented in style.",
       image: kyleImg,
     },
     {
