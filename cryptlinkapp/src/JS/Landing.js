@@ -14,11 +14,10 @@ function Home() {
       <div className="button-group">
         <Link to="/login" className="home-button">Login</Link>
         <Link to="/register" className="home-button">Register</Link>
+        <Link to="/about" className="home-button">About Us</Link> 
       </div>
     </div>
   );
 }
 
 export default Home;
-
-

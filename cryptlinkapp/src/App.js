@@ -9,6 +9,7 @@ import Messaging from './JS/messaging';
 import FileStorage from './JS/file_storage';
 import ChatRoom from './JS/chatRoom';
 import CodeVerification from "./JS/CodeVerification";
+import AboutUs from './JS/aboutUs';
 
 
 
@@ -28,6 +29,7 @@ function App() {
             <Route path="/chatRoom" element={<ChatRoom />} />
             <Route path="/codeVerification" element={<CodeVerification />} />
             <Route path="/file_storage" element={<FileStorage />} />
+            <Route path="/about" element={<AboutUs />} /> 
             <Route path="*" element={<Landing />} /> 
           
           </Routes>
