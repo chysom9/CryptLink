@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from "react-router-dom";
+
 import { Link } from "react-router-dom";
 import "../css/chatRoom.css";
 import { over } from 'stompjs';
@@ -7,6 +9,19 @@ import SockJS from 'sockjs-client';
 var stompClient = null;
 
 const ChatRoom = () => {
+
+  const navigate = useNavigate();
+  
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        console.log("Token in Home:", token);
+        
+        if (!token) {
+          console.log("Redirecting to login (no token found)");
+          navigate("/login");
+        }
+      }, [navigate]);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 

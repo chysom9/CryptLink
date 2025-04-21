@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 import { useNavigate, Link } from "react-router-dom";
 import "../css/codeVerification.css";
 import axios from "axios";
@@ -7,6 +8,15 @@ function CodeVerification() {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
+
   const email = localStorage.getItem("email"); // Retrieve the email from local storage
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +33,7 @@ function CodeVerification() {
         "https://localhost:8443/api/auth/verify-otp",
         {email, code},
         { headers: { "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
+          // Authorization: `Bearer ${token}`
          } }
       );
       console.log("Verification response:", response.data);

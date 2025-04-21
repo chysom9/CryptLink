@@ -1,10 +1,25 @@
 
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { Link } from "react-router-dom";
 import "../css/file_storage.css";
 import axios from "axios";
 
 function EncryptedFiles() {
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+      const token = localStorage.getItem("token");
+      console.log("Token in Home:", token);
+      
+      if (!token) {
+        console.log("Redirecting to login (no token found)");
+        navigate("/login");
+      }
+    }, [navigate]);
+    
   // For demonstration, we use a hard-coded userId.
   const userId = localStorage.getItem("userId"); // Replace with actual userId retrieval logic
   const token = localStorage.getItem("token"); // Retrieve the token from local storage
