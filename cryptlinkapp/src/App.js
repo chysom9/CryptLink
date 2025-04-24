@@ -5,7 +5,6 @@ import Landing from "./JS/Landing";
 import Registration from './JS/registration';
 import Login from './JS/login';
 import Home from './JS/Home';
-import Messaging from './JS/messaging';
 import FileStorage from './JS/file_storage';
 import ChatRoom from './JS/chatRoom';
 import CodeVerification from "./JS/CodeVerification";
@@ -25,7 +24,6 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/messaging" element={<Messaging />} />
             <Route path="/chatRoom" element={<ChatRoom />} />
             <Route path="/codeVerification" element={<CodeVerification />} />
             <Route path="/file_storage" element={<FileStorage />} />
