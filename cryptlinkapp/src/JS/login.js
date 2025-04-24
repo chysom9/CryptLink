@@ -50,37 +50,37 @@ function Login() {
       setTimeout(() => {
         navigate("/CodeVerification");
       }, 200);  // Small delay to ensure the state updates
+      try {
+        const response = await axios.post("https://localhost:8443/api/auth/send-otp", 
+          { email}, 
+          { headers: { "Content-Type": "application/json" } }
+        );
       
+        console.log("Send OTP!:", response.data);
+        alert("Sent OTP!");
+      
+        setEmail('');
+        setPassword('');
+  
+        localStorage.setItem("userToken", response.data); // Store token
+        localStorage.setItem("email", email); // Store email for verification
+        console.log("Navigating to CodeVerifiaction...");
+  
+        setTimeout(() => {
+          navigate("/CodeVerification");
+        }, 200);  // Small delay to ensure the state updates
+        
+      
+      } catch (error) {
+        alert("Error sending OTP");
+        console.error("OTP Send Failed:", error.response);
+      }
     
     } catch (error) {
-      alert(error.response?.data || "Error logging in user");
+      alert("Error logging in user");
       console.error("Login failed:", error.response);
     }
-    try {
-      const response = await axios.post("https://localhost:8443/api/auth/send-otp", 
-        { email}, 
-        { headers: { "Content-Type": "application/json" } }
-      );
-    
-      console.log("Send OTP!:", response.data);
-      alert("Sent OTP!");
-    
-      setEmail('');
-      setPassword('');
-
-      localStorage.setItem("userToken", response.data); // Store token
-      localStorage.setItem("email", email); // Store email for verification
-      console.log("Navigating to CodeVerifiaction...");
-
-      setTimeout(() => {
-        navigate("/CodeVerification");
-      }, 200);  // Small delay to ensure the state updates
-      
-    
-    } catch (error) {
-      alert(error.response?.data || "Error sending OTP");
-      console.error("OTP Send Failed:", error.response);
-    }
+   
   
   };
 

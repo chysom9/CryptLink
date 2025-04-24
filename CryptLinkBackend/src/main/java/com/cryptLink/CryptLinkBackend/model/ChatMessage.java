@@ -1,63 +1,116 @@
+// package com.cryptLink.CryptLinkBackend.model;
+
+// public class ChatMessage {
+//     private String senderName;
+//     private String receiverName;
+//     private String message;
+//     private String fileName;  // Optional: file name if a file is attached
+//     private String fileData;  // Optional: base64-encoded file data
+//     private String status;    // e.g., "MESSAGE" or "JOIN"
+
+//     public ChatMessage() {
+//     }
+
+//     // Getters and Setters
+
+//     public String getSenderName() {
+//         return senderName;
+//     }
+
+//     public void setSenderName(String senderName) {
+//         this.senderName = senderName;
+//     }
+
+//     public String getReceiverName() {
+//         return receiverName;
+//     }
+
+//     public void setReceiverName(String receiverName) {
+//         this.receiverName = receiverName;
+//     }
+
+//     public String getMessage() {
+//         return message;
+//     }
+
+//     public void setMessage(String message) {
+//         this.message = message;
+//     }
+
+//     public String getFileName() {
+//         return fileName;
+//     }
+
+//     public void setFileName(String fileName) {
+//         this.fileName = fileName;
+//     }
+
+//     public String getFileData() {
+//         return fileData;
+//     }
+
+//     public void setFileData(String fileData) {
+//         this.fileData = fileData;
+//     }
+
+//     public String getStatus() {
+//         return status;
+//     }
+
+//     public void setStatus(String status) {
+//         this.status = status;
+//     }
+// }
+
+// src/main/java/com/cryptLink/CryptLinkBackend/model/ChatMessage.java
+
+// src/main/java/com/cryptLink/CryptLinkBackend/model/ChatMessage.java
+
 package com.cryptLink.CryptLinkBackend.model;
 
 public class ChatMessage {
-    private String senderName;
-    private String receiverName;
-    private String message;
-    private String fileName;  // Optional: file name if a file is attached
-    private String fileData;  // Optional: base64-encoded file data
-    private String status;    // e.g., "MESSAGE" or "JOIN"
+    private String  senderName;
+    private Integer userId;
+    private String  receiverName;
+    private String  message;
+    private String  fileName;    // if sending a file
+    private String  fileData;    // either the public URL or a Base64 chunk
+    private String  fileId;      // chunk grouping ID
+    private Integer chunkIndex;  // current chunk number
+    private Integer chunkTotal;  // total chunks for this file
+    private String  status;      // "JOIN", "MESSAGE", or "FILE_CHUNK"
 
-    public ChatMessage() {
-    }
+    public ChatMessage() {}
 
-    // Getters and Setters
+    // getters & setters for all fields...
 
-    public String getSenderName() {
-        return senderName;
-    }
+    public String getSenderName()            { return senderName; }
+    public void setSenderName(String s)      { this.senderName = s; }
 
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
-    }
+    public Integer getUserId()               { return userId; }
+    public void setUserId(Integer id)        { this.userId = id; }
 
-    public String getReceiverName() {
-        return receiverName;
-    }
+    public String getReceiverName()          { return receiverName; }
+    public void setReceiverName(String r)    { this.receiverName = r; }
 
-    public void setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
-    }
+    public String getMessage()               { return message; }
+    public void setMessage(String m)         { this.message = m; }
 
-    public String getMessage() {
-        return message;
-    }
+    public String getFileName()              { return fileName; }
+    public void setFileName(String f)        { this.fileName = f; }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+    public String getFileData()              { return fileData; }
+    public void setFileData(String d)        { this.fileData = d; }
 
-    public String getFileName() {
-        return fileName;
-    }
+    public String getFileId()                { return fileId; }
+    public void setFileId(String id)         { this.fileId = id; }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
+    public Integer getChunkIndex()           { return chunkIndex; }
+    public void setChunkIndex(Integer idx)   { this.chunkIndex = idx; }
 
-    public String getFileData() {
-        return fileData;
-    }
+    public Integer getChunkTotal()           { return chunkTotal; }
+    public void setChunkTotal(Integer tot)   { this.chunkTotal = tot; }
 
-    public void setFileData(String fileData) {
-        this.fileData = fileData;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public String getStatus()                { return status; }
+    public void setStatus(String s)          { this.status = s; }
 }
