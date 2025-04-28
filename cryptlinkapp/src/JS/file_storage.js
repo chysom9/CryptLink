@@ -146,7 +146,7 @@ function EncryptedFiles() {
               <li key={fileMeta.fileId}>
                 {fileMeta.fileName}{" "}
                 <a
-                  href={fileMeta.supabasePath}
+                  href={`https://localhost:8443/api/files/${fileMeta.fileId}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

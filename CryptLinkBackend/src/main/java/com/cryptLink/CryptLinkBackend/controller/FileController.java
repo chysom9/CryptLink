@@ -1,13 +1,22 @@
 package com.cryptLink.CryptLinkBackend.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64; // Adjust the package path if necessary
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Base64; 
+import java.util.Arrays;
 import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,12 +30,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.UriUtils;
 
 import com.cryptLink.CryptLinkBackend.model.FileMetadata;
 import com.cryptLink.CryptLinkBackend.repository.FileMetadataRepository;
 import com.cryptLink.CryptLinkBackend.service.SupabaseService;
 import com.cryptLink.CryptLinkBackend.util.EncryptionResult;
 import com.cryptLink.CryptLinkBackend.util.EncryptionUtil;
+
+import lombok.val;
 
 @CrossOrigin(origins = {"http://localhost:3000", "https://localhost:3000"})
 @RestController
@@ -44,101 +58,158 @@ public class FileController {
     @Autowired
     private EncryptionUtil encryptionUtil;
 
+    @Value("${supabase.bucket}")
+    private String bucketName;
+
+    @Value("${supabase.url}")
+    private String supabaseUrl;
+
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(
-            @RequestParam("userId") Integer userId,
-            @RequestParam("file") MultipartFile file,
-            @RequestParam(value="forChat", required=false, defaultValue="false") Boolean forChat) {
-        try {
-            logger.debug("Received upload request for user ID: {}, forChat={}", userId, forChat);
-            String originalName = file.getOriginalFilename();
-            logger.debug("File name: {}", originalName);
-            
-            // encode filename safely
-            String encodedName = URLEncoder.encode(originalName, StandardCharsets.UTF_8);
-            String supabasePath = "user_" + userId + "/" + encodedName;
-            
-            byte[] uploadBytes;
-            String ivBase64 = null;
-            
-            if (!forChat) {
-                // --- ENCRYPTION PATH ---
-                byte[] iv = encryptionUtil.generateIV();
-                EncryptionResult enc = encryptionUtil.encrypt(file.getBytes(), iv);
-                uploadBytes = enc.getEncryptedBytes();
-                ivBase64 = Base64.getEncoder().encodeToString(iv);
-            } else {
-                // --- CHAT PATH (no encryption) ---
-                uploadBytes = file.getBytes();
-            }
-            
-            // upload to Supabase
-            String publicUrl = supabaseService.uploadFile(supabasePath, uploadBytes);
-            if (publicUrl == null) {
-                return ResponseEntity.badRequest().body("Upload failed");
-            }
-            
-            // Persist metadata
-            FileMetadata meta = new FileMetadata();
-            meta.setOwnerId(userId);
-            meta.setFileName(originalName);
-            meta.setSupabasePath(publicUrl);
-            meta.setCompressed(false);
-            meta.setEncrypted(!forChat);
-            meta.setIv(ivBase64);                // null if forChat=true
-            fileRepo.save(meta);
-            
-            return ResponseEntity.ok(publicUrl);
-            
-        } catch (Exception e) {
-            logger.error("File upload failed", e);
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error: " + e.getMessage());
+public ResponseEntity<String> uploadFile(
+        @RequestParam("userId") Integer userId,
+        @RequestParam("file") MultipartFile file,
+        @RequestParam(value = "forChat", required = false, defaultValue = "false") Boolean forChat) {
+    try {
+        String originalName = file.getOriginalFilename();
+        if (originalName == null || originalName.isEmpty()) {
+            return ResponseEntity.badRequest().body("File name is empty");
         }
+        if (file.getSize() > 10 * 1024 * 1024) { // 10 MB limit
+            return ResponseEntity.badRequest().body("File size exceeds limit of 10 MB");
+        }
+
+        logger.debug("Received upload request for userId={}, fileName={}, forChat={}", userId, originalName, forChat);
+
+        
+        String supabasePath = "user_" + userId + "/" + originalName;
+
+
+        byte[] plainBytes = file.getBytes();
+        byte[] uploadBytes;
+        String ivBase64 = null;
+
+        if (!forChat) {
+            byte[] iv = encryptionUtil.generateIV();
+            EncryptionResult enc = encryptionUtil.encrypt(plainBytes, iv);
+            uploadBytes = enc.getEncryptedBytes();
+            ivBase64 = Base64.getEncoder().encodeToString(iv);
+            logger.debug("Encrypted file bytes length: {}", uploadBytes.length);
+            logger.debug("IV (base64): {}", ivBase64);
+        } else {
+            uploadBytes = plainBytes;
+            logger.debug("Plain file bytes length: {}", uploadBytes.length);
+        }
+
+        //  FIX: Just pass "path" not full URL
+        String publicUrl = supabaseService.uploadFile(supabasePath, uploadBytes);
+        if (publicUrl == null) {
+            logger.error("Supabase upload failed.");
+            return ResponseEntity.badRequest().body("Upload failed");
+        }
+
+        logger.debug("Public URL from Supabase: {}", publicUrl);
+
+        FileMetadata meta = new FileMetadata();
+        meta.setOwnerId(userId);
+        meta.setFileName(originalName);
+        meta.setSupabasePath(publicUrl);
+        meta.setCompressed(false);
+        meta.setEncrypted(!forChat);
+        meta.setIv(ivBase64);
+        fileRepo.save(meta);
+
+        logger.debug("File metadata saved to database");
+
+        return ResponseEntity.ok(publicUrl);
+
+    } catch (Exception e) {
+        logger.error("File upload failed", e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
     }
+}
+
+    
     
 
     @GetMapping("/{fileId}")
-public ResponseEntity<?> getFile(@PathVariable Integer fileId) {
+public ResponseEntity<StreamingResponseBody> getFile(@PathVariable Integer fileId) {
+    logger.debug("Received download request for file ID: {}", fileId);
+
     FileMetadata meta = fileRepo.findById(fileId)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "File not found"));
+        .orElseThrow(() -> {
+            logger.warn("File with ID {} not found in database", fileId);
+            return new ResponseStatusException(HttpStatus.NOT_FOUND, "File metadata not found");
+        });
+
+    logger.debug("Found metadata: fileName={}, encrypted={}", meta.getFileName(), meta.isEncrypted());
 
     byte[] fileBytes = supabaseService.downloadFile(meta.getSupabasePath());
     if (fileBytes == null) {
-        return ResponseEntity
-            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body("Error retrieving file");
+        logger.error("Failed to download file from Supabase, path={}", meta.getSupabasePath());
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to download file from storage");
     }
 
-    byte[] outputBytes;
-    if (meta.isEncrypted()) {
-        // decrypt path
-        byte[] iv = Base64.getDecoder().decode(meta.getIv());
-        try {
-            outputBytes = encryptionUtil.decrypt(fileBytes, iv);
+    logger.debug("Downloaded {} bytes from storage", fileBytes.length);
+
+    StreamingResponseBody stream = outputStream -> {
+        try (InputStream in = new ByteArrayInputStream(fileBytes)) {
+            InputStream processedStream = in;
+
+            if (meta.isEncrypted()) {
+                if (meta.getIv() == null || meta.getIv().isEmpty()) {
+                    logger.error("Missing IV for encrypted file ID {}", fileId);
+                    throw new IllegalStateException("Missing IV for decryption");
+                }
+
+                byte[] iv = Base64.getDecoder().decode(meta.getIv());
+                logger.debug("Decoded IV for file ID {}: {}", fileId, Base64.getEncoder().encodeToString(iv));
+
+                byte[] decrypted = encryptionUtil.decrypt(fileBytes, iv);
+                processedStream = new ByteArrayInputStream(decrypted);
+
+                logger.debug("Successfully decrypted file ID {}", fileId);
+            }
+
+            byte[] buffer = new byte[8192]; // 8 KB chunks
+            int bytesRead;
+            while ((bytesRead = processedStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            outputStream.flush();
         } catch (Exception e) {
-            logger.error("Decryption failed", e);
-            return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error decrypting file");
+            logger.error("Error streaming file ID {}: {}", fileId, e.getMessage(), e);
+            throw new RuntimeException("Error streaming file", e);
         }
-    } else {
-        // chat‑only path
-        outputBytes = fileBytes;
-    }
+    };
+
+    // Detect content type smartly
+    String contentType = detectContentType(meta.getFileName());
 
     HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-    headers.setContentLength(outputBytes.length);
-    headers.set(
-        "Content-Disposition",
-        "attachment; filename=\"" + meta.getFileName() + "\""
-    );
+    headers.setContentType(MediaType.parseMediaType(contentType));
+    headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + meta.getFileName() + "\"");
 
-    return new ResponseEntity<>(outputBytes, headers, HttpStatus.OK);
+    return new ResponseEntity<>(stream, headers, HttpStatus.OK);
 }
+
+// helper function to guess MIME type
+private String detectContentType(String fileName) {
+    if (fileName == null) {
+        return MediaType.APPLICATION_OCTET_STREAM_VALUE;
+    }
+    try {
+        Path path = Paths.get(fileName);
+        String contentType = Files.probeContentType(path);
+        if (contentType != null) {
+            return contentType;
+        }
+    } catch (Exception e) {
+        logger.warn("Could not determine content type for file: {}", fileName, e);
+    }
+    return MediaType.APPLICATION_OCTET_STREAM_VALUE; // fallback
+}
+
 
     
 
@@ -159,5 +230,8 @@ public ResponseEntity<?> getFile(@PathVariable Integer fileId) {
         logger.debug("Found {} files for user with ID: {}", files.size(), userId);
         return ResponseEntity.ok(files);
     }
+
+    
+    
 }
 

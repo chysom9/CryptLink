@@ -19,7 +19,11 @@ import com.cryptLink.CryptLinkBackend.service.OTPLogicService;
 public class AuthController {
     @Autowired
     private OTPLogicService otpService;
-
+    
+    public AuthController(OTPLogicService otpService) {
+        this.otpService = otpService;
+    }
+    
     @PostMapping("/send-otp")
     public ResponseEntity<String> sendOTP(@RequestBody Map<String,String> request) {
         String email = request.get("email");
