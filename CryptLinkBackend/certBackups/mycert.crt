@@ -1,8 +1,3 @@
-Bag Attributes
-    friendlyName: cryptlink
-    localKeyID: 54 69 6D 65 20 31 37 34 30 36 38 38 30 33 38 33 33 35 
-subject=C=US, ST=NC, L=charlotte, O=ITSC, OU=ITSC-4155, CN=mahmood kidwai
-issuer=C=US, ST=NC, L=charlotte, O=ITSC, OU=ITSC-4155, CN=mahmood kidwai
 -----BEGIN CERTIFICATE-----
 MIIDeDCCAmCgAwIBAgIJALwRGxg8pW4SMA0GCSqGSIb3DQEBDAUAMGoxCzAJBgNV
 BAYTAlVTMQswCQYDVQQIEwJOQzESMBAGA1UEBxMJY2hhcmxvdHRlMQ0wCwYDVQQK

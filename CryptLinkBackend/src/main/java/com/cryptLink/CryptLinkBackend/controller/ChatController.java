@@ -35,6 +35,18 @@ public class ChatController {
     // In-memory buffer map: fileId → assembled bytes
     private ConcurrentMap<String, ByteArrayOutputStream> buffers = new ConcurrentHashMap<>();
 
+    public ChatController(
+        SimpMessagingTemplate broker,
+        SupabaseService supabaseService,
+        EncryptionUtil encryptionUtil,
+        FileMetadataRepository fileRepo
+    ) {
+        this.broker = broker;
+        this.supabaseService = supabaseService;
+        this.encryptionUtil = encryptionUtil;
+        this.fileRepo = fileRepo;
+    }
+
     @MessageMapping("/message")
     public void handlePublic(@Payload ChatMessage msg) throws Exception {
         if ("FILE_CHUNK".equals(msg.getStatus())) {

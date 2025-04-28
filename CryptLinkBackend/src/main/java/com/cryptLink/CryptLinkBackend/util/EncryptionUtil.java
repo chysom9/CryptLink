@@ -7,11 +7,16 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EncryptionUtil {
+
+    private static final Logger logger = LoggerFactory.getLogger(EncryptionUtil.class);
 
     // Load the fixed key from the application.properties file.
     @Value("${encryption.fixedKey}")
@@ -24,6 +29,7 @@ public class EncryptionUtil {
 
     // Existing encryption and decryption methods, updated to use getFixedKey() for development:
     public EncryptionResult encrypt(byte[] data, byte[] iv) throws Exception {
+        logger.debug("Generated IV during encrypt(): {}", Base64.getEncoder().encodeToString(iv));
         SecretKey key = getFixedKey();
         Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
         GCMParameterSpec spec = new GCMParameterSpec(128, iv);
@@ -33,6 +39,7 @@ public class EncryptionUtil {
     }
 
     public byte[] decrypt(byte[] encryptedData, byte[] iv) throws Exception {
+        logger.debug("Generated IV during decrypt(): {}", Base64.getEncoder().encodeToString(iv));
         SecretKey key = getFixedKey();
         Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
         GCMParameterSpec spec = new GCMParameterSpec(128, iv);
@@ -45,6 +52,7 @@ public class EncryptionUtil {
         byte[] iv = new byte[12]; // 12 bytes for GCM recommended
         SecureRandom secureRandom = new SecureRandom();
         secureRandom.nextBytes(iv);
+        logger.debug("Generated IV during generateIV(): {}", Base64.getEncoder().encodeToString(iv));
         return iv;
     }
 }
